@@ -3,8 +3,13 @@
 describe("a user visiting the show list page", () => {
   beforeEach(() => {
     cy.task("db:truncate", "Show")
-    cy.task("db:insert", { modelName: "Show", json: {name: "Supernatural", description: "Brothers fighting monsters"}})
-    cy.task("db:insert", { modelName: "Show", json: {name: "Friends", description: "Friends will be there for you"}})
+    cy.task("db:insert", {
+      modelName: "Show",
+      json: [
+        { name: "Supernatural", description: "Brothers fighting monsters" },
+        { name: "Friends", description: "Friends will be there for you" }
+      ]
+    })
     cy.visit("/shows")
   })
 

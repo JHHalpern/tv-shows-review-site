@@ -1,7 +1,5 @@
 import { connection } from "../boot.js"
-
 import ShowsSeeder from "./seeders/ShowsSeeder.js"
-
 
 class Seeder {
   static async seed() {

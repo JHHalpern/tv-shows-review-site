@@ -10,8 +10,8 @@ class Show extends Model {
       type: "object",
       required: ["name"],
       properties: {
-        name: {type: "string", minLength: 1, maxLength: 255},
-        description: {type: "string", minLength: 10}
+        name: { type: "string", minLength: 1, maxLength: 255 },
+        description: { type: "string", minLength: 10 }
       }
     }
   }
