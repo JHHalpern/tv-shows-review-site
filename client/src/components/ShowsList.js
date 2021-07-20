@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react"
+import ShowTile from "./ShowTile"
 
 const ShowsList = (props) => {
   const [shows, setShows] = useState([])
 
   const fetchShows = async () => {
-    try{
+    try {
       const response = await fetch("/api/v1/shows")
       if(!response.ok){
         const errorMessage = `${response.status}: (${response.statusText})`
@@ -14,7 +15,7 @@ const ShowsList = (props) => {
         const showsData = await response.json()
         setShows(showsData.shows)
       }
-    }catch(err){
+    } catch(err) {
       console.log(`Error in Fetch: ${err.message}`)
     }
   }
@@ -23,8 +24,23 @@ const ShowsList = (props) => {
     fetchShows()
   }, [])
 
+  const showList = shows.map( show => {
+    return (
+      <ShowTile
+        key={show.id}
+        name={show.name}
+        description={show.description}
+      />
+    )
+  })
+
   return (
-    <h1>this is showslist</h1>
+    <div>
+      <h1>TV Shows</h1>
+      <ul id="shows">
+        {showList}
+      </ul>
+    </div>
   )
 }
 
