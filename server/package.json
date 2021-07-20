@@ -10,6 +10,7 @@
     "migrate:make": "knex --knexfile ./knexfile.cjs migrate:make",
     "db:test:migrate": "NODE_ENV='test' yarn run migrate:latest",
     "db:e2e:migrate": "NODE_ENV='e2e' yarn run migrate:latest",
+    "db:seed": "node ./bin/seed.js",
     "test": "jest",
     "ci": "jest --coverage",
     "generate-secret": "./scripts/generate-secret.js",
