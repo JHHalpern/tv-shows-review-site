@@ -1,12 +1,17 @@
 import React, { useState } from "react"
 import { Redirect } from "react-router-dom"
+import ErrorList from "./ErrorList"
+import translateServerErrors from "../services/translateServerErrors"
 
 const NewShowForm = (props) => {
   const [newShow, setNewShow] = useState({
     name: "",
     description: ""
   })
+
   const [shouldRedirect, setShouldRedirect] = useState(false)
+
+  const [errors, setErrors] = useState([])
 
   const handleInputChange = (event) => {
     setNewShow({
@@ -28,8 +33,8 @@ const NewShowForm = (props) => {
       if(!response.ok) {
         if(response.status === 422) {
           const body = await response.json()
-          // const newErrors = translateServerErrors(body.errors)
-          // return setErrors(newErrors)
+          const newErrors = translateServerErrors(body.errors)
+          return setErrors(newErrors)
         } else {
           const errorMessage = `${response.status}: (${response.statusText})`
           const error = new Error(errorMessage)
@@ -38,7 +43,7 @@ const NewShowForm = (props) => {
       } else {
         setShouldRedirect(true)
       }
-    } catch(err) {
+    } catch(error) {
       console.error(`Error in Fetch: ${error.message}`)
     }
   }
@@ -50,14 +55,30 @@ const NewShowForm = (props) => {
   return (
     <div>
       <h1>Submit a New Show</h1>
+      <ErrorList errors={errors} />
       <form onSubmit={handleSubmit}>
         <label htmlFor="name">Name: </label>
-        <input type="text" id="name" name="name" value={newShow.name}/>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          value={newShow.name}
+          onChange={handleInputChange}
+        />
 
         <label htmlFor="description">Description: </label>
-        <input type="text" id="description" name="description" value={newShow.description} />
+        <input 
+          type="text"
+          id="description"
+          name="description"
+          value={newShow.description}
+          onChange={handleInputChange}
+        />
         
-        <input type="submit" value="Add Show" />
+        <input 
+          type="submit"
+          value="Add Show"
+        />
       </form>
     </div>
   )
