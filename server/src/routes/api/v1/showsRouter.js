@@ -4,16 +4,21 @@ const { ValidationError } = objection
 
 import { Show } from "../../../models/index.js"
 import ShowSerializer from "../../../serializers/ShowSerializer.js"
+import showsReviewsRouter from "./showsReviewsRouter.js"
 import cleanUserInput from "../../../services/cleanUserInput.js"
 
 const showsRouter = new express.Router()
 
+showsRouter.use("/:id/reviews", showsReviewsRouter)
+
 showsRouter.get("/", async (req, res) => {
   try {
     const shows = await Show.query()
-    const serializedShows = shows.map(show => {
-      return ShowSerializer.getSummary(show)
-    })
+    const serializedShows = await Promise.all(
+      shows.map(async (show) => {
+        return await ShowSerializer.getSummary(show)
+      })
+    )
 
     return res.status(200).json({ shows: serializedShows })
   } catch(error) {
@@ -42,7 +47,7 @@ showsRouter.get("/:id", async(req,res) => {
   const showId = req.params.id
   try {
     const show = await Show.query().findById(showId)
-    const serializedShow = ShowSerializer.getSummary(show)
+    const serializedShow = await ShowSerializer.getSummary(show)
     return res.status(200).json({ show: serializedShow })
   } catch(err){
     return res.status(500).json({ errors: err })
