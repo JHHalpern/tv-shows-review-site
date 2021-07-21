@@ -22,9 +22,9 @@ showsRouter.get("/:id", async(req,res) => {
   try {
     const show = await Show.query().findById(showId)
     const serializedShow = ShowSerializer.getSummary(show)
-    return res.status(200).json( { show: serializedShow } )
+    return res.status(200).json({ show: serializedShow })
   } catch(err){
-    return res.status(500).json({errors: err})
+    return res.status(500).json({ errors: err })
   }
 })
 
