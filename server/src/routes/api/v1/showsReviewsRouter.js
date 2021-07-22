@@ -16,8 +16,7 @@ reviewsRouter.post("/", async (req,res) => {
   try {
     const newReview = await Review.query().insertAndFetch(formInput)
     return res.status(201).json({ review: newReview })
-  }
-  catch(error) {
+  } catch(error) {
       if(error instanceof ValidationError) {
         return res.status(422).json({ errors: error.data })
       }

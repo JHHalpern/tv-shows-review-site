@@ -89,9 +89,9 @@ const NewReviewForm = (props) => {
       <ErrorList errors={errors} />
       <h1>Make Your Dumb Review:</h1>
 
-          <div className="grid-x">
-            {reviewRating}
-          </div>
+        <div className="grid-x">
+          {reviewRating}
+        </div>
 
         <form onSubmit={handleSubmit}>
           <label htmlFor="body">
