@@ -8,6 +8,7 @@ import RegistrationForm from "./registration/RegistrationForm";
 import SignInForm from "./authentication/SignInForm";
 import TopBar from "./layout/TopBar";
 import ShowsList from "./ShowsList.js"
+import NewShowForm from "./NewShowForm.js"
 import TVDetailsPage from "./TVDetailsPage";
 
 const App = (props) => {
@@ -21,11 +22,13 @@ const App = (props) => {
         setCurrentUser(null);
       });
   }, []);
+  
   return (
     <Router>
       <TopBar user={currentUser} />
       <Switch>
         <Route exact path="/shows" component={ShowsList} />
+        <Route exact path="/shows/new" component={NewShowForm} />
         <Route exact path="/users/new" component={RegistrationForm} />
         <Route exact path="/user-sessions/new" component={SignInForm} />
         <Route exact path="/shows/:id" component={TVDetailsPage} />

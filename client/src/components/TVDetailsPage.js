@@ -12,7 +12,7 @@ const TVDetailsPage = props => {
     const showId = props.match.params.id
     try {
       const response = await fetch(`/api/v1/shows/${showId}`)
-      if(!response.ok){
+      if(!response.ok) {
         const errorMessage = `${response.status} (${response.statusText})`
         const error = new Error(errorMessage)
         throw(error)
@@ -31,8 +31,8 @@ const TVDetailsPage = props => {
     return (
       <ReviewTile
         key={reviewItem.id}
-        reviewBody = {reviewItem.reviewBody}
-        score = {reviewItem.score}
+        reviewBody={reviewItem.reviewBody}
+        score={reviewItem.score}
       />
     )
   })
@@ -40,9 +40,9 @@ const TVDetailsPage = props => {
   return(
     <div>
       <h1>{show.name}</h1>
-      <h4>Description:</h4>
+      <h4>Description: </h4>r
       {show.description}
-      <h4>Reviews:</h4>
+      <h4>Reviews: </h4>
       {reviewListItems}
     </div>
   )

@@ -8,10 +8,10 @@ class Review extends Model {
   static get jsonSchema() {
     return {
       type: "object",
-      required: ["reviewBody", "score", "showId"],
+      required: ["body", "score", "showId"],
       properties: {
         reviewBody: { type: "string", minLength: 10 },
-        score: { type: "integer" }
+        score: { type: "integer", minimum: 1, maximum: 5 }
       }
     }
   }
