@@ -6,7 +6,7 @@
  * @param {Knex} knex
  */
 exports.up = async (knex) => {
-  return knex.schema.createTable( "shows", (table) => {
+  return knex.schema.createTable("shows", (table) => {
     table.bigIncrements("id")
     table.string("name").notNullable()
     table.text("description")

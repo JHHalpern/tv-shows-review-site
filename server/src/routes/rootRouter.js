@@ -8,6 +8,6 @@ rootRouter.use("/", clientRouter);
 
 rootRouter.use("/api/v1/user-sessions", userSessionsRouter);
 rootRouter.use("/api/v1/users", usersRouter); //place your server-side routes here
-rootRouter.use("/api/v1/shows", showsRouter)
+rootRouter.use("/api/v1/shows", showsRouter);
 
 export default rootRouter;
