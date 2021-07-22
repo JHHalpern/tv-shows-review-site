@@ -1,7 +1,7 @@
 import ReviewSerializer from "./ReviewSerializer.js"
 
 class ShowSerializer {
-  static getSummary(show) {
+  static async getSummary(show) {
     const allowedAttributes = ["name", "description", "id"]
 
     let serializedShow = {}
@@ -22,7 +22,7 @@ class ShowSerializer {
     const reviews = await show.$relatedQuery("reviews")
     const serializedReviews = reviews.map(review => {
       return ReviewSerializer.getSummary(review)
-    })  
+    })
     serializedShow.reviews = serializedReviews
 
     return serializedShow
