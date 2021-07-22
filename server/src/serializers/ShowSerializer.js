@@ -1,5 +1,5 @@
 class ShowSerializer {
-  static getSummary(show) {
+  static async getSummary(show) {
     const allowedAttributes = ["name", "description", "id"]
 
     let serializedShow = {}
@@ -7,6 +7,7 @@ class ShowSerializer {
       serializedShow[attribute] = show[attribute]
     })
 
+    serializedShow.reviews = await show.$relatedQuery("reviews")
     return serializedShow
   }
 }
