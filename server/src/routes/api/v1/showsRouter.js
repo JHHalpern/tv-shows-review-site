@@ -17,4 +17,15 @@ showsRouter.get("/", async (req, res) => {
   }
 })
 
+showsRouter.get("/:id", async(req,res) => {
+  const showId = req.params.id
+  try {
+    const show = await Show.query().findById(showId)
+    const serializedShow = ShowSerializer.getSummary(show)
+    return res.status(200).json( { show: serializedShow } )
+  } catch(err){
+    return res.status(500).json({errors: err})
+  }
+})
+
 export default showsRouter

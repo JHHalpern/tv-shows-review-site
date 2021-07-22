@@ -8,6 +8,7 @@ import RegistrationForm from "./registration/RegistrationForm";
 import SignInForm from "./authentication/SignInForm";
 import TopBar from "./layout/TopBar";
 import ShowsList from "./ShowsList.js"
+import TVDetailsPage from "./TVDetailsPage";
 
 const App = (props) => {
   const [currentUser, setCurrentUser] = useState(undefined);
@@ -27,6 +28,7 @@ const App = (props) => {
         <Route exact path="/shows" component={ShowsList} />
         <Route exact path="/users/new" component={RegistrationForm} />
         <Route exact path="/user-sessions/new" component={SignInForm} />
+        <Route exact path="/shows/:id" component={TVDetailsPage} />
       </Switch>
     </Router>
   );
