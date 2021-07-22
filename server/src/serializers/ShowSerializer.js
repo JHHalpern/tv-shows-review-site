@@ -19,10 +19,11 @@ class ShowSerializer {
     allowedAttributes.forEach(attribute => {
       serializedShow[attribute] = show[attribute]
     })
+    
     const reviews = await show.$relatedQuery("reviews")
-    const serializedReviews = reviews.map(review => {
-      return ReviewSerializer.getSummary(review)
-    })
+    const serializedReviews = await Promise.all(reviews.map(review => {
+      return ReviewSerializer.getDetail(review)
+    }))
     serializedShow.reviews = serializedReviews
 
     return serializedShow

@@ -44,6 +44,7 @@ const TVDetailsPage = props => {
         key={reviewItem.id}
         body={reviewItem.body}
         score={reviewItem.score}
+        votes={reviewItem.votes}
       />
     )
   })
@@ -52,8 +53,8 @@ const TVDetailsPage = props => {
     <div>
       <h1>{show.name}</h1>
       <h4>Description: </h4>
-      <NewReviewForm showId={showId} addNewReview={addNewReview} />
       {show.description}
+      <NewReviewForm showId={showId} addNewReview={addNewReview} />
       <h4>Reviews: </h4>
       {reviewListItems}
     </div>
