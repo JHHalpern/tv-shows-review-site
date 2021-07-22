@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import NewReviewForm from "./NewReviewForm.js"
-import ReactTile from "./ReviewTiles.js"
+import ReviewTile from "./ReviewTile"
 
 const TVDetailsPage = props => {
   const [show, setShow] = useState({
@@ -8,13 +8,13 @@ const TVDetailsPage = props => {
     description: "",
     reviews: []
   })
-
+  
   const showId = props.match.params.id
-
+  
   const getShow = async () => {
     try {
       const response = await fetch(`/api/v1/shows/${showId}`)
-      if(!response.ok){
+      if(!response.ok) {
         const errorMessage = `${response.status} (${response.statusText})`
         const error = new Error(errorMessage)
         throw(error)
@@ -30,12 +30,6 @@ const TVDetailsPage = props => {
     getShow()
   }, [])
 
-  const reviewsListItems = show.reviews.map(reviewObject => {
-    return(
-      <ReactTile key={reviewObject.id} review={reviewObject.body} />
-    )
-  })
-
   const addNewReview = (review) => {
     const updatedShow = {
       ...show,
@@ -43,16 +37,25 @@ const TVDetailsPage = props => {
     }
     setShow(updatedShow)
   }
-
+  
+  const reviewListItems = show.reviews.map(reviewItem => {
+    return (
+      <ReviewTile
+        key={reviewItem.id}
+        body={reviewItem.body}
+        score={reviewItem.score}
+      />
+    )
+  })
+ 
   return(
     <div>
       <h1>{show.name}</h1>
-      <h4>Description:</h4>
-        {show.description}
+      <h4>Description: </h4>
       <NewReviewForm showId={showId} addNewReview={addNewReview} />
-      <ul>
-        {reviewsListItems}
-      </ul>
+      {show.description}
+      <h4>Reviews: </h4>
+      {reviewListItems}
     </div>
   )
 }
