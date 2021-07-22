@@ -37,9 +37,10 @@ const TVDetailsPage = props => {
   })
 
   const addNewReview = (review) => {
-    console.log(review)
-    let updatedShow = show
-    updatedShow.reviews.concat(review)
+    const updatedShow = {
+      ...show,
+      reviews: [...show.reviews, review]
+    }
     setShow(updatedShow)
   }
 
