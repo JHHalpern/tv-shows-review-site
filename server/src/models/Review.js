@@ -4,9 +4,20 @@ class Review extends Model {
   static get tableName() {
     return "reviews"
   }
-
+  
+  static get jsonSchema() {
+    return {
+      type: "object",
+      required: ["body", "score", "showId"],
+      properties: {
+        reviewBody: { type: "string", minLength: 10 },
+        score: { type: "integer", minimum: 1, maximum: 5 }
+      }
+    }
+  }
+  
   static get relationMappings() {
-    const Show = require("./Show.js")
+    const { Show } = require("./index.js")
 
     return {
       show: {
@@ -16,16 +27,6 @@ class Review extends Model {
           from: "reviews.showId",
           to: "shows.id"
         }
-      }
-    }
-  }
-
-  static get jsonSchema() {
-    return {
-      type: "object",
-      required: ["body"],
-      properties: {
-        body: { type: "string", minLength: 1, maxLength: 10000 }
       }
     }
   }
