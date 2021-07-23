@@ -11,13 +11,14 @@ class Review extends Model {
       required: ["body", "score", "showId"],
       properties: {
         reviewBody: { type: "string", minLength: 10 },
-        score: { type: "integer", minimum: 1, maximum: 5 }
+        score: { type: "number", minimum: 1, maximum: 5 },
+        showId: { type: "number" }
       }
     }
   }
   
   static get relationMappings() {
-    const { Show, User } = require("./index.js")
+    const { Show, Vote } = require("./index.js")
 
     return {
       show: {
@@ -28,12 +29,12 @@ class Review extends Model {
           to: "shows.id"
         }
       },
-      user: {
-        relation: Model.BelongToOneRelation,
-        modelClass: User,
+      votes: {
+        relation: Model.HasManyRelation,
+        modelClass: Vote,
         join: {
-          from: "reviews.userId",
-          to: "users.id"
+          from: "reviews.id",
+          to: "votes.reviewId"
         }
       }
     }

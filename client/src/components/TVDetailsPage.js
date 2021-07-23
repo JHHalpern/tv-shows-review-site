@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react"
+import NewReviewForm from "./NewReviewForm.js"
 import ReviewTile from "./ReviewTile"
 
 const TVDetailsPage = props => {
@@ -7,9 +8,10 @@ const TVDetailsPage = props => {
     description: "",
     reviews: []
   })
-
+  
+  const showId = props.match.params.id
+  
   const getShow = async () => {
-    const showId = props.match.params.id
     try {
       const response = await fetch(`/api/v1/shows/${showId}`)
       if(!response.ok) {
@@ -23,16 +25,26 @@ const TVDetailsPage = props => {
       console.error(`Error in fetch: ${err.message}`)
     }
   }
+  
   useEffect(() => { 
     getShow()
   }, [])
 
+  const addNewReview = (review) => {
+    const updatedShow = {
+      ...show,
+      reviews: [...show.reviews, review]
+    }
+    setShow(updatedShow)
+  }
+  
   const reviewListItems = show.reviews.map(reviewItem => {
     return (
       <ReviewTile
         key={reviewItem.id}
-        reviewBody={reviewItem.reviewBody}
+        body={reviewItem.body}
         score={reviewItem.score}
+        votes={reviewItem.votes}
       />
     )
   })
@@ -40,8 +52,9 @@ const TVDetailsPage = props => {
   return(
     <div>
       <h1>{show.name}</h1>
-      <h4>Description: </h4>r
+      <h4>Description: </h4>
       {show.description}
+      <NewReviewForm showId={showId} addNewReview={addNewReview} />
       <h4>Reviews: </h4>
       {reviewListItems}
     </div>
