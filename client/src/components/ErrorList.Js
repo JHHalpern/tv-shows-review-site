@@ -23,4 +23,4 @@ const ErrorList = props => {
   }
 }
 
-export default ErrorList
+export default ErrorListz

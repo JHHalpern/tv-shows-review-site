@@ -4,17 +4,17 @@ class ReviewsSeeder {
   static async seed() {
     const reviewsData = [
       {
-        reviewBody: "I loved this show a lot.  Great details and character development",
+        body: "I loved this show a lot.  Great details and character development",
         score: 5,
         showId: 1
       },
       {
-        reviewBody: "Great show, but Ross is a jerk.",
+        body: "Great show, but Ross is a jerk.",
         score: 4,
         showId: 2
       },
       {
-        reviewBody: "The best show on TV as long as you don't watch endings",
+        body: "The best show on TV as long as you don't watch endings",
         score: 4,
         showId: 3
       }
