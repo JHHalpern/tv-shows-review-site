@@ -10,8 +10,13 @@ const cleanUserInput = formInput => {
     }
 
     if(field === "showId") {
-        const validId = Number(formInput.showId)
-        formInput.showId = validId
+        const validShowId = Number(formInput.showId)
+        formInput.showId = validShowId
+    }
+
+    if(field === "userId") {
+        const validUserId = Number(formInput.userId)
+        formInput.userId = validUserId
     }
 
   })

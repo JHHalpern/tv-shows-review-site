@@ -5,15 +5,19 @@ import translateServerErrors from "../services/translateServerErrors"
 const NewReviewForm = (props) => {
   const [newReview, setNewReview] = useState({
     body: "",
-    score: ""
+    score: "",
+    userId: ""
   })
 
   const [errors, setErrors] = useState([])
 
+  const userId = props.userId
+
   const handleInputChange = (event) => {
     setNewReview({
       ...newReview,
-      [event.currentTarget.name]: event.currentTarget.value
+      [event.currentTarget.name]: event.currentTarget.value,
+      userId: userId
     })
   }
 
@@ -21,6 +25,7 @@ const NewReviewForm = (props) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault()
+
     try {
       const response = await fetch(`/api/v1/shows/${showId}/reviews`, {
         method: "POST",

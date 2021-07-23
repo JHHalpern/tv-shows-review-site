@@ -11,6 +11,8 @@ reviewsRouter.post("/", async (req,res) => {
   const showId = req.params.id
   const uncleanInput = req.body
   uncleanInput.showId = showId
+  const userId = req.body.userId
+  uncleanInput.userId = userId
   const formInput = cleanUserInput(uncleanInput)
   
   try {
@@ -22,6 +24,18 @@ reviewsRouter.post("/", async (req,res) => {
       }
     return res.status(500).json({ error })
   }  
+})
+
+
+reviewsRouter.delete("/:id", async (req, res) => {
+  try {
+    const reviewId = req.params.id
+    await Review.query().deleteById(reviewId)
+    return res.status(200).json()
+  } catch(error) {
+    return res.status(500).json({ error })
+  }
+
 })
 
 export default reviewsRouter

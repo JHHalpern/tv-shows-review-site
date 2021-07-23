@@ -2,7 +2,7 @@ import VoteSerializer from "./VoteSerializer.js"
 
 class ReviewSerializer {
   static async getDetail(review) {
-    const allowedAttributes = ["body", "score", "id"]
+    const allowedAttributes = ["body", "score", "id", "userId", "showId"]
 
     let serializedReview = {}
     allowedAttributes.forEach(attribute => {

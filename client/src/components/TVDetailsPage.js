@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react"
+import { useParams } from "react-router-dom"
 import NewReviewForm from "./NewReviewForm.js"
 import ReviewTile from "./ReviewTile"
 
@@ -8,8 +9,10 @@ const TVDetailsPage = props => {
     description: "",
     reviews: []
   })
-  
-  const showId = props.match.params.id
+
+  const showId = useParams().id
+
+  const userId = props.userId
   
   const getShow = async () => {
     try {
@@ -20,7 +23,11 @@ const TVDetailsPage = props => {
         throw(error)
       }
       const body = await response.json()
+      console.log("below me is body")
+      console.log(body)
       setShow(body.show)
+      console.log("below me is body.show")
+      console.log(body.show)
     } catch(err) {
       console.error(`Error in fetch: ${err.message}`)
     }
@@ -37,7 +44,7 @@ const TVDetailsPage = props => {
     }
     setShow(updatedShow)
   }
-  
+
   const reviewListItems = show.reviews.map(reviewItem => {
     return (
       <ReviewTile
@@ -45,6 +52,10 @@ const TVDetailsPage = props => {
         body={reviewItem.body}
         score={reviewItem.score}
         votes={reviewItem.votes}
+        reviewUserId={reviewItem.userId}
+        userId={userId}
+        reviewId={reviewItem.id}
+        showId={reviewItem.showId}
       />
     )
   })
@@ -54,7 +65,7 @@ const TVDetailsPage = props => {
       <h1>{show.name}</h1>
       <h4>Description: </h4>
       {show.description}
-      <NewReviewForm showId={showId} addNewReview={addNewReview} />
+      <NewReviewForm showId={showId} addNewReview={addNewReview} userId={userId}/>
       <h4>Reviews: </h4>
       {reviewListItems}
     </div>
