@@ -56,6 +56,7 @@ const TVDetailsPage = props => {
         userId={userId}
         reviewId={reviewItem.id}
         showId={reviewItem.showId}
+        addNewReview={addNewReview}
       />
     )
   })

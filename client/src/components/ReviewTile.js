@@ -1,4 +1,5 @@
-import React, { useEffect, setStatus } from "react"
+import React, { useState, useEffect, setStatus } from "react"
+import NewReviewForm from "./NewReviewForm.js"
 
 const ReviewTile = (props) => {
   let upVotes = 0
@@ -28,33 +29,63 @@ const ReviewTile = (props) => {
     }
   }
 
-  const handleEdit = async (event) => {
-    even.preventDefault()
-    
+  const [canEdit, setCanEdit] = useState(false)
+
+  const handleEdit = (event) => {
+    event.preventDefault()
+    setCanEdit(!canEdit)
   }
 
   if(props.userId === props.reviewUserId) {
-    return (
-      <div>
-        <p>Score: {props.score} out of 5</p>
-        <p>{props.body}</p>
-        <p>Upvotes: {upVotes}  Downvotes: {downVotes}</p>
-
+    if(canEdit) {
+      return (
         <div>
-          <input 
-            type="submit"
-            value="Edit"
-          />
+          <p>Score: {props.score} out of 5</p>
+          <p>{props.body}</p>
+          <p>Upvotes: {upVotes}  Downvotes: {downVotes}</p>
+  
+          <div>
+            <input 
+              type="submit"
+              value="Edit"
+              onClick={handleEdit}
+            />
+  
+            <input 
+              type="submit"
+              value="Delete"
+              onClick={handleDelete}
+            />
+          </div>
 
-          <input 
-            type="submit"
-            value="Delete"
-            onClick={handleDelete}
-          />
+          //make this into a EditReviewForm
+          <NewReviewForm userId={props.userId} showId={props.showId} addNewReview={props.addNewReview}/>
+
         </div>
-    
-      </div>
-    )
+      )
+    } else {
+      return (
+        <div>
+          <p>Score: {props.score} out of 5</p>
+          <p>{props.body}</p>
+          <p>Upvotes: {upVotes}  Downvotes: {downVotes}</p>
+  
+          <div>
+            <input 
+              type="submit"
+              value="Edit"
+              onClick={handleEdit}
+            />
+  
+            <input 
+              type="submit"
+              value="Delete"
+              onClick={handleDelete}
+            />
+          </div>
+        </div>
+      )
+    }
   } else {
     return (
       <div>
