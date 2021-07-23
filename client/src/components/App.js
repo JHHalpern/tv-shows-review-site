@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { hot } from "react-hot-loader/root";
 import getCurrentUser from "../services/getCurrentUser";
 import "../assets/scss/main.scss";
+import "../assets/stylesheets/main.scss"
 import RegistrationForm from "./registration/RegistrationForm";
 import SignInForm from "./authentication/SignInForm";
 import TopBar from "./layout/TopBar";
@@ -21,6 +22,11 @@ const App = (props) => {
         setCurrentUser(null);
       });
   }, []);
+
+  let userId
+  if (currentUser) {
+    userId = currentUser.id
+  }
   
   return (
     <Router>
@@ -30,7 +36,9 @@ const App = (props) => {
         <Route exact path="/shows/new" component={NewShowForm} />
         <Route exact path="/users/new" component={RegistrationForm} />
         <Route exact path="/user-sessions/new" component={SignInForm} />
-        <Route exact path="/shows/:id" component={TVDetailsPage} />
+        <Route exact path="/shows/:id">
+          <TVDetailsPage userId={userId}/>
+        </Route>
       </Switch>
     </Router>
   );
