@@ -5,8 +5,7 @@ import translateServerErrors from "../services/translateServerErrors"
 const NewReviewForm = (props) => {
   const [newReview, setNewReview] = useState({
     body: "",
-    score: "",
-    votes: []
+    score: ""
   })
 
   const [errors, setErrors] = useState([])
@@ -43,6 +42,7 @@ const NewReviewForm = (props) => {
       } else {
         const newReviewData = await response.json()
         const newReview = newReviewData.review
+        newReview.votes = []
         props.addNewReview(newReview)
         clearForm()
       }
@@ -54,8 +54,7 @@ const NewReviewForm = (props) => {
   const clearForm = () => {
     setNewReview({
       body: "",
-      score: "",
-      votes: []
+      score: ""
     })
   }
 

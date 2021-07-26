@@ -7,8 +7,8 @@ const TVDetailsPage = props => {
   const [show, setShow] = useState({
     name: "",
     description: "",
-    reviews: []
   })
+  const [reviews, setReviews] = useState([])
   
   const { id } = useParams()
   
@@ -22,6 +22,7 @@ const TVDetailsPage = props => {
       }
       const body = await response.json()
       setShow(body.show)
+      setReviews(body.show.reviews)
     } catch(err) {
       console.error(`Error in fetch: ${err.message}`)
     }
@@ -31,30 +32,19 @@ const TVDetailsPage = props => {
     getShow()
   }, [])
 
-  const addNewReview = (review) => {
-    const updatedShow = {
-      ...show,
-      reviews: [...show.reviews, review]
-    }
-    setShow(updatedShow)
+  const addNewReview = (newReview) => {
+    const updatedReviews = [...reviews, newReview]
+    setShow(updatedReviews)
   }
 
-  const addNewVote = (newVote, reviewId) => {
-    const currentReviewIndex = show.reviews.findIndex((review) => review.id === reviewId)
-    let reviewsCopy = [...show.reviews]
+  const addNewVoteToPage = (newVote, reviewId) => {
+    const currentReviewIndex = reviews.findIndex((review) => review.id === reviewId)
+    let reviewsCopy = [...reviews]
     reviewsCopy[currentReviewIndex].votes = [...reviewsCopy[currentReviewIndex].votes, newVote]
-    setShow({
-      ...show,
-      reviews: reviewsCopy
-    })
+    setReviews(reviewsCopy)
   }
 
-  let loggedInError
-  if(!props.userId) {
-    loggedInError = <p>You must log in to vote on reviews!</p>
-  }
-
-  const reviewListItems = show.reviews.map(reviewItem => {
+  const reviewListItems = reviews.map(reviewItem => {
     return (
       <ReviewTile
         key={reviewItem.id}
@@ -63,7 +53,7 @@ const TVDetailsPage = props => {
         score={reviewItem.score}
         votes={reviewItem.votes}
         userId={props.userId}
-        addNewVote={addNewVote}
+        addNewVoteToPage={addNewVoteToPage}
       />
     )
   })
@@ -78,7 +68,6 @@ const TVDetailsPage = props => {
         addNewReview={addNewReview} 
       />
       <h4>Reviews: </h4>
-      {loggedInError}
       {reviewListItems}
     </div>
   )

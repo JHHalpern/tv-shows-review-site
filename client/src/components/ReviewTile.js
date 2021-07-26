@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import addNewVoteToTable from "../services/addNewVoteToTable.js"
 
 const ReviewTile = (props) => {
   const [showVoteError, setShowVoteError] = useState(false)
@@ -15,36 +16,17 @@ const ReviewTile = (props) => {
   })
 
   const handleClick = async (event) => {
-    if(props.userId) {
-      setShowVoteError(false)
-      let alreadyVoted = false
-      props.votes.forEach(vote => {
-        if(vote.userId === props.userId) {
-          alreadyVoted = true
-          setShowVoteError(true)
-        }
-      })
-      if(!alreadyVoted) {
-        try {
-          const response = await fetch(`/api/v1/reviews/${props.reviewId}/vote`, {
-            method: "POST",
-            headers: new Headers({
-              "Content-Type": "application/json"
-            }),
-            body: JSON.stringify({ userId: props.userId, direction: event.currentTarget.value })
-          })
-          if(!response.ok){
-            const errorMessage = `${response.status}: (${response.statusText})`
-            const error = new Error(errorMessage)
-            throw(error)
-          } else {
-            const body = await response.json()
-            props.addNewVote(body.newVote, props.reviewId)
-          }
-        } catch(err) {
-          console.error(`Error in fetch: ${err.message}`)
-        }
+    setShowVoteError(false)
+    let alreadyVoted = false
+    props.votes.forEach(vote => {
+      if(vote.userId === props.userId) {
+        alreadyVoted = true
+        setShowVoteError(true)
       }
+    })
+    if(!alreadyVoted) {
+      const newVote = await addNewVoteToTable(props.userId, event.currentTarget.value, props.reviewId)
+      props.addNewVoteToPage(newVote, props.reviewId)
     }
   }
   
@@ -73,7 +55,7 @@ const ReviewTile = (props) => {
         >
           &#x2191;Vote
         </button>
-        <p className="vote_text">Upvotes: {upVotes}</p>
+        <p className="vote_text"> Upvotes: {upVotes} </p>
         <button 
           type="button" 
           className={buttonClass} 
@@ -82,7 +64,7 @@ const ReviewTile = (props) => {
         >
           &#x2193;Vote
         </button>
-        <p className="vote_text">Downvotes: {downVotes}</p>
+        <p className="vote_text"> Downvotes: {downVotes} </p>
         {voteError}
       </div>
     </div>
