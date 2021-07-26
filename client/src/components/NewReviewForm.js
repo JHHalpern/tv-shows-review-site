@@ -4,7 +4,8 @@ import translateServerErrors from "../services/translateServerErrors"
 
 const NewReviewForm = (props) => {
   const [newReview, setNewReview] = useState({
-    body: ""
+    body: "",
+    score: ""
   })
 
   const [errors, setErrors] = useState([])
@@ -42,6 +43,7 @@ const NewReviewForm = (props) => {
         const newReviewData = await response.json()
         const newReview = newReviewData.review
         props.addNewReview(newReview)
+        clearForm()
       }
     } catch(error) {
       console.error(`Error in Fetch: ${error.message}`)
@@ -50,14 +52,47 @@ const NewReviewForm = (props) => {
 
   const clearForm = () => {
     setNewReview({
-      body: ""
+      body: "",
+      score: ""
     })
   }
+
+  const handleRadioClick = (event) =>{
+    setNewReview({
+      ...newReview,
+      score: event.currentTarget.value
+    })
+  }
+
+  const ratings = [1, 2, 3, 4, 5]
+
+  const reviewRating = ratings.map(rating => {
+    return (
+      <div key={rating} className="cell small-1">
+        <label htmlFor={rating}>
+          {rating}
+        </label>
+        <input
+          id={rating}
+          type="radio"
+          name="score"
+          value={rating}
+          checked={newReview.score == rating}
+          onChange={handleRadioClick}
+        />
+      </div>
+    )
+  })
 
   return (
     <div className= "newReviewForm">
       <ErrorList errors={errors} />
       <h1>Make Your Dumb Review:</h1>
+
+        <div className="grid-x">
+          {reviewRating}
+        </div>
+
         <form onSubmit={handleSubmit}>
           <label htmlFor="body">
             Body:
@@ -68,7 +103,7 @@ const NewReviewForm = (props) => {
               value={newReview.body}
             />
           </label>
-          
+
           <div className="button-group">
             <input 
               className="button"
