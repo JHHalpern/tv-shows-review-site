@@ -2,12 +2,13 @@ import React, { useState } from "react"
 import ErrorList from "./ErrorList"
 import translateServerErrors from "../services/translateServerErrors"
 
-const NewReviewForm = (props) => {
-  const [newReview, setNewReview] = useState({
+const EditReviewForm = (props) => {
+  const [editReview, setEditReview] = useState({
     body: "",
     score: "",
     userId: "",
-    votes: ""
+    reviewId: "",
+    showId: ""
   })
 
   const [errors, setErrors] = useState([])
@@ -15,11 +16,12 @@ const NewReviewForm = (props) => {
   const userId = props.userId
 
   const handleInputChange = (event) => {
-    setNewReview({
-      ...newReview,
+    setEditReview({
+      ...editReview,
       [event.currentTarget.name]: event.currentTarget.value,
       userId: userId,
-      votes: []
+      reviewId: props.reviewId,
+      showId: props.showId
     })
   }
 
@@ -27,14 +29,14 @@ const NewReviewForm = (props) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault()
-
+    props.getShow()
     try {
-      const response = await fetch(`/api/v1/shows/${showId}/reviews`, {
-        method: "POST",
+      const response = await fetch(`/api/v1/shows/${showId}/reviews/edit`, {
+        method: "PATCH",
         headers: new Headers({
           "Content-Type": "application/json"
         }),
-        body: JSON.stringify(newReview)
+        body: JSON.stringify(editReview)
       })
       if(!response.ok) {
         if(response.status === 422) {
@@ -47,9 +49,8 @@ const NewReviewForm = (props) => {
           throw(error)
         }
       } else {
-        const newReviewData = await response.json()
-        const newReview = newReviewData.review
-        props.addNewReview(newReview)
+        const editReviewData = await response.json()
+        props.editNewReview(editReviewData.review)
         clearForm()
       }
     } catch(error) {
@@ -58,15 +59,15 @@ const NewReviewForm = (props) => {
   }
 
   const clearForm = () => {
-    setNewReview({
+    setEditReview({
       body: "",
       score: ""
     })
   }
 
   const handleRadioClick = (event) =>{
-    setNewReview({
-      ...newReview,
+    setEditReview({
+      ...editReview,
       score: event.currentTarget.value
     })
   }
@@ -79,12 +80,13 @@ const NewReviewForm = (props) => {
         <label htmlFor={rating}>
           {rating}
         </label>
+        
         <input
           id={rating}
           type="radio"
           name="score"
           value={rating}
-          checked={newReview.score == rating}
+          checked={editReview.score == rating}
           onChange={handleRadioClick}
         />
       </div>
@@ -92,9 +94,9 @@ const NewReviewForm = (props) => {
   })
 
   return (
-    <div className= "newReviewForm">
+    <div className= "editReviewForm">
       <ErrorList errors={errors} />
-      <h1>Make Your Dumb Review:</h1>
+      <h1>Edit Your Dumb Review:</h1>
         <div className="grid-x">
           {reviewRating}
         </div>
@@ -106,7 +108,7 @@ const NewReviewForm = (props) => {
               type="text"
               name="body"
               onChange={handleInputChange}
-              value={newReview.body}
+              value={editReview.body}
             />
           </label>
 
@@ -122,4 +124,4 @@ const NewReviewForm = (props) => {
   )
 }
 
-export default NewReviewForm
+export default EditReviewForm

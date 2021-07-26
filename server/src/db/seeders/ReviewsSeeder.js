@@ -7,19 +7,19 @@ class ReviewsSeeder {
         body: "I loved this show a lot.  Great details and character development",
         score: 5,
         showId: 1,
-        userId: 1
+        userId: 1,
       },
       {
         body: "Great show, but Ross is a jerk.",
         score: 4,
         showId: 2,
-        userId: 1
+        userId: 1,
       },
       {
         body: "The best show on TV as long as you don't watch endings",
         score: 4,
         showId: 3,
-        userId: 2
+        userId: 2,
       }
     ]
 

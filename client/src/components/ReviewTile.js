@@ -1,11 +1,15 @@
 import React, { useState, useEffect, setStatus } from "react"
+
 import NewReviewForm from "./NewReviewForm.js"
+import EditReviewForm from "./EditReviewForm.js"
 
 const ReviewTile = (props) => {
+  const review = props.review
+
   let upVotes = 0
   let downVotes = 0
-  
-  props.votes.forEach(vote => {
+
+  review.votes.forEach(vote => {
     if(vote.direction === "up") {
       upVotes++
     } else {
@@ -13,20 +17,21 @@ const ReviewTile = (props) => {
     }
   })
 
-  const reviewId = props.reviewId
-  const showId = props.showId
-  console.log(`showId is... ${showId}`)
-
+  const reviewId = review.id
+  const showId = review.showId
+ 
   const handleDelete = async (event) => {
     event.preventDefault()
+
     try {
       const response = await fetch(`/api/v1/shows/${showId}/reviews/${reviewId}`, {
         method: "DELETE"
       }).then(() => setStatus('Deleted') )
-
     } catch(error) {
       console.error(`Error in Fetch: ${error.message}`)
     }
+    
+    props.getShow() 
   }
 
   const [canEdit, setCanEdit] = useState(false)
@@ -36,12 +41,12 @@ const ReviewTile = (props) => {
     setCanEdit(!canEdit)
   }
 
-  if(props.userId === props.reviewUserId) {
+  if(props.userId === review.userId) {
     if(canEdit) {
       return (
         <div>
-          <p>Score: {props.score} out of 5</p>
-          <p>{props.body}</p>
+          <p>Score: {review.score} out of 5</p>
+          <p>{review.body}</p>
           <p>Upvotes: {upVotes}  Downvotes: {downVotes}</p>
   
           <div>
@@ -58,16 +63,20 @@ const ReviewTile = (props) => {
             />
           </div>
 
-          //make this into a EditReviewForm
-          <NewReviewForm userId={props.userId} showId={props.showId} addNewReview={props.addNewReview}/>
-
+          <EditReviewForm
+            userId={props.userId}
+            showId={review.showId}
+            editNewReview={props.editNewReview}
+            reviewId={review.id}
+            getShow={props.getShow}
+          />
         </div>
       )
     } else {
       return (
         <div>
-          <p>Score: {props.score} out of 5</p>
-          <p>{props.body}</p>
+          <p>Score: {review.score} out of 5</p>
+          <p>{review.body}</p>
           <p>Upvotes: {upVotes}  Downvotes: {downVotes}</p>
   
           <div>
@@ -89,8 +98,8 @@ const ReviewTile = (props) => {
   } else {
     return (
       <div>
-        <p>Score: {props.score} out of 5</p>
-        <p>{props.body}</p>
+        <p>Score: {review.score} out of 5</p>
+        <p>{review.body}</p>
         <p>Upvotes: {upVotes}  Downvotes: {downVotes}</p>
       </div>
     )

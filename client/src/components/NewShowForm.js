@@ -1,12 +1,13 @@
 import React, { useState } from "react"
 import { Redirect } from "react-router-dom"
+
 import ErrorList from "./ErrorList"
 import translateServerErrors from "../services/translateServerErrors"
 
 const NewShowForm = (props) => {
   const [newShow, setNewShow] = useState({
     name: "",
-    description: ""
+    description: "",
   })
 
   const [shouldRedirect, setShouldRedirect] = useState(false)

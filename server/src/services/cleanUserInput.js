@@ -19,6 +19,10 @@ const cleanUserInput = formInput => {
         formInput.userId = validUserId
     }
 
+    if(field === "reviewId") {
+        const validReviewId = Number(formInput.reviewId)
+        formInput.reviewId = validReviewId
+    }
   })
 
   return formInput
