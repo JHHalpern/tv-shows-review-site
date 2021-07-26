@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
+import fetchReviews from "../services/fetchReviews.js"
 import NewReviewForm from "./NewReviewForm.js"
 import ReviewTile from "./ReviewTile"
 
@@ -9,6 +10,7 @@ const TVDetailsPage = props => {
     description: "",
   })
   const [reviews, setReviews] = useState([])
+  const [showError, setShowError] = useState(false)
   
   const { id } = useParams()
   
@@ -37,19 +39,9 @@ const TVDetailsPage = props => {
     setReviews(updatedReviews)
   }
 
-  const addNewVoteToPage = (newVote, reviewId) => {
-    // console.log(reviewId)
-    const currentReviewIndex = reviews.findIndex((review) => review.id === reviewId)
-    console.log(currentReviewIndex)
-    let reviewsCopy = [...reviews]
-    console.log(reviews)
-    console.log(reviewsCopy)
-    // console.log(reviewsCopy[currentReviewIndex].votes)
-    reviewsCopy[currentReviewIndex].votes = [...reviewsCopy[currentReviewIndex].votes, newVote]
-    console.log(reviewsCopy)
-    // console.log(reviewsCopy[currentReviewIndex].votes)
-
-    setReviews(reviewsCopy)
+  const addNewVoteToPage = async () => {
+    const newReviews = await fetchReviews(id)
+    setReviews(newReviews)
   }
 
   const reviewListItems = reviews.map(review => {
@@ -58,6 +50,8 @@ const TVDetailsPage = props => {
         key={review.id}
         review={review}
         userId={props.userId}
+        showError={showError}
+        setShowError={setShowError}
         addNewVoteToPage={addNewVoteToPage}
       />
     )

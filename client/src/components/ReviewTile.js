@@ -2,25 +2,24 @@ import React, { useState } from "react"
 import addNewVoteToTable from "../services/addNewVoteToTable.js"
 
 const ReviewTile = (props) => {
-  const [showVoteError, setShowVoteError] = useState(false)
+  const [alreadyVoted, setAlreadyVoted] = useState(false)
 
   const handleClick = async (event) => {
-    setShowVoteError(false)
-    let alreadyVoted = false
-    props.review.votes.forEach(vote => {
-      if(vote.userId === props.userId) {
-        alreadyVoted = true
-        setShowVoteError(true)
-      }
-    })
-    if(!alreadyVoted) {
+    const existingVote = props.review.votes.find(vote => vote.userId === props.userId) 
+    if(existingVote) {
+      setAlreadyVoted(true)
+      props.setShowError(true)
+    }  
+    if(!existingVote) {
+      setAlreadyVoted(false)
+      props.setShowError(false)
       const newVote = await addNewVoteToTable(props.userId, event.currentTarget.value, props.review.id)
       props.addNewVoteToPage(newVote, props.review.id)
     }
   }
   
   let voteError
-  if(showVoteError) {
+  if(props.showError && alreadyVoted) {
     voteError = <p>You've already voted on this review!</p>
   }
 
