@@ -5,7 +5,7 @@ const cleanVoteInput = formInput => {
     if(field === "userId") {
         const validId = Number(formInput.userId)
         formInput.userId = validId
-    }
+     }
 
     if(field === "reviewId") {
         const validId = Number(formInput.reviewId)

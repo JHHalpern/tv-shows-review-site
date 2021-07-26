@@ -3,6 +3,7 @@ import { Vote } from "../../../models/index.js"
 import objection from "objection"
 const { ValidationError } = objection
 import cleanVoteInput from "../../../services/cleanVoteInput.js"
+import VoteSerializer from "../../../serializers/VoteSerializer.js"
 
 const reviewsRouter = new express.Router()
 
@@ -13,7 +14,8 @@ reviewsRouter.post("/:id/vote", async (req, res) => {
   const cleanedData = cleanVoteInput(newVoteData)
   try {
     const newVote = await Vote.query().insertAndFetch(cleanedData)
-    return res.status(201).json({ newVote })
+    const serializedVote = VoteSerializer.getSummary(newVote)
+    return res.status(201).json({ newVote: serializedVote })
   } catch(err) {
     if(error instanceof ValidationError) {
       return res.status(422).json({ errors: error.data })

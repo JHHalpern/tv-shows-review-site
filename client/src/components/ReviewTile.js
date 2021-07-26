@@ -4,29 +4,18 @@ import addNewVoteToTable from "../services/addNewVoteToTable.js"
 const ReviewTile = (props) => {
   const [showVoteError, setShowVoteError] = useState(false)
 
-  let upVotes = 0
-  let downVotes = 0
-  
-  props.votes.forEach(vote => {
-    if(vote.direction === "up") {
-      upVotes++
-    } else {
-      downVotes++
-    }
-  })
-
   const handleClick = async (event) => {
     setShowVoteError(false)
     let alreadyVoted = false
-    props.votes.forEach(vote => {
+    props.review.votes.forEach(vote => {
       if(vote.userId === props.userId) {
         alreadyVoted = true
         setShowVoteError(true)
       }
     })
     if(!alreadyVoted) {
-      const newVote = await addNewVoteToTable(props.userId, event.currentTarget.value, props.reviewId)
-      props.addNewVoteToPage(newVote, props.reviewId)
+      const newVote = await addNewVoteToTable(props.userId, event.currentTarget.value, props.review.id)
+      props.addNewVoteToPage(newVote, props.review.id)
     }
   }
   
@@ -35,36 +24,40 @@ const ReviewTile = (props) => {
     voteError = <p>You've already voted on this review!</p>
   }
 
-  let buttonClass
+  let upButton
+  let downButton
   if(props.userId) {
-    buttonClass = "vote_button"
-  } else {
-    buttonClass = "logged_out_button"
+    upButton = (
+      <button 
+        type="button" 
+        className="vote_button"
+        value="up"
+        onClick={handleClick}
+      >
+        &#x2191;Vote
+      </button>
+    )
+    downButton = (
+      <button 
+        type="button" 
+        className="vote_button" 
+        value="down"
+        onClick={handleClick}
+      >
+        &#x2193;Vote
+      </button>
+    )
   }
   
   return (
     <div>
-      <p>Score: {props.score} out of 5</p>
-      <p>{props.body}</p>
+      <p>Score: {props.review.score} out of 5</p>
+      <p>{props.review.body}</p>
       <div className="votes">
-        <button 
-          type="button" 
-          className={buttonClass} 
-          value="up"
-          onClick={handleClick}
-        >
-          &#x2191;Vote
-        </button>
-        <p className="vote_text"> Upvotes: {upVotes} </p>
-        <button 
-          type="button" 
-          className={buttonClass} 
-          value="down"
-          onClick={handleClick}
-        >
-          &#x2193;Vote
-        </button>
-        <p className="vote_text"> Downvotes: {downVotes} </p>
+        {upButton}
+        <p className="vote_text"> Upvotes: {props.review.upVotes} </p>
+        {downButton}
+        <p className="vote_text"> Downvotes: {props.review.downVotes} </p>
         {voteError}
       </div>
     </div>

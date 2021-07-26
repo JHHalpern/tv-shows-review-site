@@ -14,15 +14,15 @@ const cleanUserInput = formInput => {
         formInput.showId = validId
     }
 
-    if(field === "userId") {
-        const validId = Number(formInput.showId)
-        formInput.showId = validId
+    if(field === "userId" || field === "reviewId") {
+        const validId = Number(formInput[field])
+        formInput[field] = validId
     }
 
-    if(field === "reviewId") {
-        const validId = Number(formInput.showId)
-        formInput.showId = validId
-    }
+    // if(field === "reviewId") {
+    //     const validId = Number(formInput.showId)
+    //     formInput.showId = validId
+    // }
 
   })
 

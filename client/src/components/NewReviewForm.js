@@ -42,7 +42,6 @@ const NewReviewForm = (props) => {
       } else {
         const newReviewData = await response.json()
         const newReview = newReviewData.review
-        newReview.votes = []
         props.addNewReview(newReview)
         clearForm()
       }

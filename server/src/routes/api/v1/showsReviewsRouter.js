@@ -1,7 +1,7 @@
 import express from "express"
 import objection from "objection"
 const { ValidationError } = objection
-
+import ReviewSerializer from "../../../serializers/ReviewSerializer.js"
 import { Review } from "../../../models/index.js"
 import cleanUserInput from "../../../services/cleanUserInput.js"
 
@@ -15,7 +15,8 @@ reviewsRouter.post("/", async (req,res) => {
   
   try {
     const newReview = await Review.query().insertAndFetch(formInput)
-    return res.status(201).json({ review: newReview })
+    const serializedReview = await ReviewSerializer.getDetail(newReview)
+    return res.status(201).json({ review: serializedReview })
   } catch(error) {
       if(error instanceof ValidationError) {
         return res.status(422).json({ errors: error.data })

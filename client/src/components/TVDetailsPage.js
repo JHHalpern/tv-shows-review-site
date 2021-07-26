@@ -34,24 +34,29 @@ const TVDetailsPage = props => {
 
   const addNewReview = (newReview) => {
     const updatedReviews = [...reviews, newReview]
-    setShow(updatedReviews)
+    setReviews(updatedReviews)
   }
 
   const addNewVoteToPage = (newVote, reviewId) => {
+    // console.log(reviewId)
     const currentReviewIndex = reviews.findIndex((review) => review.id === reviewId)
+    console.log(currentReviewIndex)
     let reviewsCopy = [...reviews]
+    console.log(reviews)
+    console.log(reviewsCopy)
+    // console.log(reviewsCopy[currentReviewIndex].votes)
     reviewsCopy[currentReviewIndex].votes = [...reviewsCopy[currentReviewIndex].votes, newVote]
+    console.log(reviewsCopy)
+    // console.log(reviewsCopy[currentReviewIndex].votes)
+
     setReviews(reviewsCopy)
   }
 
-  const reviewListItems = reviews.map(reviewItem => {
+  const reviewListItems = reviews.map(review => {
     return (
       <ReviewTile
-        key={reviewItem.id}
-        reviewId={reviewItem.id}
-        body={reviewItem.body}
-        score={reviewItem.score}
-        votes={reviewItem.votes}
+        key={review.id}
+        review={review}
         userId={props.userId}
         addNewVoteToPage={addNewVoteToPage}
       />
