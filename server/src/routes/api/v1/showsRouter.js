@@ -19,7 +19,6 @@ showsRouter.get("/", async (req, res) => {
         return await ShowSerializer.getSummary(show)
       })
     )
-
     return res.status(200).json({ shows: serializedShows })
   } catch(error) {
     return res.status(500).json({ error })

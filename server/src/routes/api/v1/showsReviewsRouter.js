@@ -2,10 +2,26 @@ import express from "express"
 import objection from "objection"
 const { ValidationError } = objection
 import ReviewSerializer from "../../../serializers/ReviewSerializer.js"
-import { Review } from "../../../models/index.js"
+import { Review, Show } from "../../../models/index.js"
 import cleanUserInput from "../../../services/cleanUserInput.js"
 
 const reviewsRouter = new express.Router({ mergeParams: true})
+
+reviewsRouter.get("/", async (req, res) => {
+  const showId = req.params.id
+  try {
+    const show = await Show.query().findById(showId)
+    const reviews = await show.$relatedQuery("reviews")
+    const serializedReviews = await Promise.all(
+      reviews.map(async (review) => {
+        return await ReviewSerializer.getDetail(review)
+      })
+    )
+    return res.status(200).json({ reviews: serializedReviews })
+  } catch(error) {
+    return res.status(500).json({ error })
+  }
+}) 
 
 reviewsRouter.post("/", async (req,res) => {
   const showId = req.params.id

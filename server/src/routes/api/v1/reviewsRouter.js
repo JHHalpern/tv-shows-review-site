@@ -9,22 +9,6 @@ import { Show, Review } from "../../../models/index.js"
 
 const reviewsRouter = new express.Router()
 
-reviewsRouter.get("/:showId", async (req, res) => {
-  const showId = req.params.showId
-  try {
-    const show = await Show.query().findById(showId)
-    const reviews = await show.$relatedQuery("reviews")
-    const serializedReviews = await Promise.all(
-      reviews.map(async (review) => {
-        return await ReviewSerializer.getDetail(review)
-      })
-    )
-    return res.status(200).json({ reviews: serializedReviews })
-  } catch(error) {
-    return res.status(500).json({ error })
-  }
-}) 
-
 reviewsRouter.post("/:id/vote", async (req, res) => {
   const reviewId = req.params.id
   const newVoteData = req.body
