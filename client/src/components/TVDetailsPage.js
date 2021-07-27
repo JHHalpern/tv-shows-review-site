@@ -61,10 +61,9 @@ const TVDetailsPage = props => {
     <div className="callout primary">
       <div className="callout">
         <h1>{show.name}</h1>
-        <h4>Description: </h4>
-        {show.description}
+        <h4>{show.description}</h4>
       <NewReviewForm 
-        showId={showId} 
+        showId={id} 
         addNewReview={addNewReview}
       />
       </div>
