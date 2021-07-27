@@ -85,7 +85,7 @@ const NewReviewForm = (props) => {
   })
 
   return (
-    <div className= "newReviewForm">
+    <div className= "newReviewForm callout secondary">
       <ErrorList errors={errors} />
       <h1>Make Your Dumb Review:</h1>
 
