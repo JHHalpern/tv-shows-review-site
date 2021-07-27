@@ -1,7 +1,6 @@
 import express from "express"
 import objection from "objection"
 const { ValidationError } = objection
-
 import { Show } from "../../../models/index.js"
 import ShowSerializer from "../../../serializers/ShowSerializer.js"
 import showsReviewsRouter from "./showsReviewsRouter.js"
@@ -19,7 +18,6 @@ showsRouter.get("/", async (req, res) => {
         return await ShowSerializer.getSummary(show)
       })
     )
-
     return res.status(200).json({ shows: serializedShows })
   } catch(error) {
     return res.status(500).json({ error })

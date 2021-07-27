@@ -12,3 +12,21 @@
   -moz-tab-size: 4;
   tab-size: 4;
 }
+
+.vote_button {
+  background-color: lightblue;
+  display: inline-block;
+  margin: 5px;
+  padding: 2px;
+  border: solid black 1px;
+}
+
+.logged_out_button {
+  display: none;
+}
+
+.vote_text {
+  display: inline-block;
+  margin-left: 5px;
+  margin-right: 5px;
+}

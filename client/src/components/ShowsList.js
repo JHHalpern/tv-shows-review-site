@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import ShowTile from "./ShowTile"
+import ShowTile from "./ShowTile.js"
 
 const ShowsList = (props) => {
   const [shows, setShows] = useState([])

@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from "react"
+import { useParams } from "react-router-dom"
+import fetchReviews from "../services/fetchReviews.js"
 import NewReviewForm from "./NewReviewForm.js"
-import ReviewTile from "./ReviewTile"
+import ReviewTile from "./ReviewTile.js"
 
 const TVDetailsPage = props => {
   const [show, setShow] = useState({
     name: "",
     description: "",
-    reviews: []
   })
+  const [reviews, setReviews] = useState([])
+  const [showError, setShowError] = useState(false)
   
-  const showId = props.match.params.id
+  const { id } = useParams()
   
   const getShow = async () => {
     try {
-      const response = await fetch(`/api/v1/shows/${showId}`)
+      const response = await fetch(`/api/v1/shows/${id}`)
       if(!response.ok) {
         const errorMessage = `${response.status} (${response.statusText})`
         const error = new Error(errorMessage)
@@ -21,6 +24,7 @@ const TVDetailsPage = props => {
       }
       const body = await response.json()
       setShow(body.show)
+      setReviews(body.show.reviews)
     } catch(err) {
       console.error(`Error in fetch: ${err.message}`)
     }
@@ -30,21 +34,25 @@ const TVDetailsPage = props => {
     getShow()
   }, [])
 
-  const addNewReview = (review) => {
-    const updatedShow = {
-      ...show,
-      reviews: [...show.reviews, review]
-    }
-    setShow(updatedShow)
+  const addNewReview = (newReview) => {
+    const updatedReviews = [...reviews, newReview]
+    setReviews(updatedReviews)
   }
-  
-  const reviewListItems = show.reviews.map(reviewItem => {
+
+  const addNewVoteToPage = async () => {
+    const newReviews = await fetchReviews(id)
+    setReviews(newReviews)
+  }
+
+  const reviewListItems = reviews.map(review => {
     return (
       <ReviewTile
-        key={reviewItem.id}
-        body={reviewItem.body}
-        score={reviewItem.score}
-        votes={reviewItem.votes}
+        key={review.id}
+        review={review}
+        userId={props.userId}
+        showError={showError}
+        setShowError={setShowError}
+        addNewVoteToPage={addNewVoteToPage}
       />
     )
   })
@@ -54,7 +62,10 @@ const TVDetailsPage = props => {
       <h1>{show.name}</h1>
       <h4>Description: </h4>
       {show.description}
-      <NewReviewForm showId={showId} addNewReview={addNewReview} />
+      <NewReviewForm 
+        showId={id} 
+        addNewReview={addNewReview} 
+      />
       <h4>Reviews: </h4>
       {reviewListItems}
     </div>
