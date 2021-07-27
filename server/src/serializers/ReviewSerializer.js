@@ -14,6 +14,20 @@ class ReviewSerializer {
       return VoteSerializer.getSummary(vote)
     })
     serializedReview.votes = serializedVotes
+    
+    let upVotes = 0
+    let downVotes = 0
+  
+    serializedReview.votes.forEach(vote => {
+      if(vote.direction === "up") {
+        upVotes++
+      } else {
+        downVotes++
+      }
+    })
+
+    serializedReview.upVotes = upVotes
+    serializedReview.downVotes = downVotes
 
     return serializedReview
   }

@@ -1,8 +1,8 @@
 import React from "react";
 import { render } from "react-dom";
 
-import App from "./components/App";
-import config from "./config";
+import App from "./components/App.js";
+import config from "./config.js";
 import RedBox from "redbox-react";
 
 document.addEventListener("DOMContentLoaded", () => {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import ShowTile from "./ShowTile"
+import ShowTile from "./ShowTile.js"
 
 const ShowsList = (props) => {
   const [shows, setShows] = useState([])
@@ -28,6 +28,7 @@ const ShowsList = (props) => {
     return (
       <ShowTile
         key={show.id}
+        id={show.id}
         name={show.name}
         description={show.description}
       />
@@ -35,11 +36,11 @@ const ShowsList = (props) => {
   })
 
   return (
-    <div>
+    <div className="callout primary">
       <h1>TV Shows</h1>
-      <ul id="shows">
+      <div id="shows">
         {showList}
-      </ul>
+      </div>
     </div>
   )
 }

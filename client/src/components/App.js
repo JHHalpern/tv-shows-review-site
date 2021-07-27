@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { hot } from "react-hot-loader/root";
-import getCurrentUser from "../services/getCurrentUser";
+import getCurrentUser from "../services/getCurrentUser.js";
 import "../assets/scss/main.scss";
-import RegistrationForm from "./registration/RegistrationForm";
-import SignInForm from "./authentication/SignInForm";
-import TopBar from "./layout/TopBar";
+import RegistrationForm from "./registration/RegistrationForm.js";
+import SignInForm from "./authentication/SignInForm.js";
+import TopBar from "./layout/TopBar.js";
 import ShowsList from "./ShowsList.js"
 import NewShowForm from "./NewShowForm.js"
-import TVDetailsPage from "./TVDetailsPage";
+import TVDetailsPage from "./TVDetailsPage.js";
 
 const App = (props) => {
   const [currentUser, setCurrentUser] = useState(undefined);
@@ -23,7 +23,7 @@ const App = (props) => {
   }, []);
 
   let userId
-  if(currentUser) {
+  if (currentUser) {
     userId = currentUser.id
   }
   
@@ -36,7 +36,7 @@ const App = (props) => {
         <Route exact path="/users/new" component={RegistrationForm} />
         <Route exact path="/user-sessions/new" component={SignInForm} />
         <Route exact path="/shows/:id">
-          <TVDetailsPage userId={userId} />
+          <TVDetailsPage userId={userId}/>
         </Route>
       </Switch>
     </Router>

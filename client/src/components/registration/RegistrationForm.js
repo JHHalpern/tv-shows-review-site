@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import FormError from "../layout/FormError";
-import config from "../../config";
+import FormError from "../layout/FormError.js";
+import config from "../../config.js";
 
 const RegistrationForm = () => {
   const [userPayload, setUserPayload] = useState({
@@ -81,7 +81,7 @@ const RegistrationForm = () => {
   };
 
   if (shouldRedirect) {
-    location.href = "/";
+    location.href = "/shows";
   }
 
   return (

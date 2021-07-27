@@ -4,9 +4,10 @@ import usersRouter from "./api/v1/usersRouter.js";
 import clientRouter from "./clientRouter.js";
 import showsRouter from "./api/v1/showsRouter.js";
 import reviewsRouter from "./api/v1/reviewsRouter.js";
-const rootRouter = new express.Router();
-rootRouter.use("/", clientRouter);
 
+const rootRouter = new express.Router();
+
+rootRouter.use("/", clientRouter);
 rootRouter.use("/api/v1/user-sessions", userSessionsRouter);
 rootRouter.use("/api/v1/users", usersRouter);
 rootRouter.use("/api/v1/shows", showsRouter);
