@@ -1,7 +1,6 @@
 import express from "express"
 import objection from "objection"
 const { ValidationError } = objection
-
 import { Show } from "../../../models/index.js"
 import ShowSerializer from "../../../serializers/ShowSerializer.js"
 import showsReviewsRouter from "./showsReviewsRouter.js"

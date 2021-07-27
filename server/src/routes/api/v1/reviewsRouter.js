@@ -4,8 +4,6 @@ import objection from "objection"
 const { ValidationError } = objection
 import cleanUserInput from "../../../services/cleanUserInput.js"
 import VoteSerializer from "../../../serializers/VoteSerializer.js"
-import ReviewSerializer from "../../../serializers/ReviewSerializer.js"
-import { Show, Review } from "../../../models/index.js"
 
 const reviewsRouter = new express.Router()
 

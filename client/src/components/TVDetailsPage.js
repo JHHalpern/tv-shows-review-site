@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
 import fetchReviews from "../services/fetchReviews.js"
 import NewReviewForm from "./NewReviewForm.js"
-import ReviewTile from "./ReviewTile"
+import ReviewTile from "./ReviewTile.js"
 
 const TVDetailsPage = props => {
   const [show, setShow] = useState({
