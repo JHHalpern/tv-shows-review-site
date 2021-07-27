@@ -4,28 +4,12 @@ const cleanUserInput = formInput => {
       delete formInput[field]
     }
     
-    if(field === "score" && formInput[field]) {
-        const validScore = Number(formInput.score)
-        formInput.score = validScore
-    }
-
-    if(field === "showId") {
-        const validShowId = Number(formInput.showId)
-        formInput.showId = validShowId
-    }
-
-    if(field === "userId") {
-        const validUserId = Number(formInput.userId)
-        formInput.userId = validUserId
-    }
-
-    if(field === "reviewId") {
-        const validReviewId = Number(formInput.reviewId)
-        formInput.reviewId = validReviewId
+    const numberFields = ["score", "showId", "userId", "reviewId"]
+    if(numberFields.includes(field) && formInput[field]) {
+        const validInput = Number(formInput[field])
+        formInput[field] = validInput
     }
   })
-
   return formInput
 }
-
 export default cleanUserInput

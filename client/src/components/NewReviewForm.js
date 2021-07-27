@@ -6,7 +6,6 @@ const NewReviewForm = (props) => {
   const [newReview, setNewReview] = useState({
     body: "",
     score: "",
-    userId: "",
     votes: ""
   })
 
@@ -18,7 +17,6 @@ const NewReviewForm = (props) => {
     setNewReview({
       ...newReview,
       [event.currentTarget.name]: event.currentTarget.value,
-      userId: userId,
       votes: []
     })
   }
@@ -27,6 +25,8 @@ const NewReviewForm = (props) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault()
+    const formattedNewReview = newReview
+    formattedNewReview.userId = userId
 
     try {
       const response = await fetch(`/api/v1/shows/${showId}/reviews`, {
@@ -34,7 +34,7 @@ const NewReviewForm = (props) => {
         headers: new Headers({
           "Content-Type": "application/json"
         }),
-        body: JSON.stringify(newReview)
+        body: JSON.stringify(formattedNewReview)
       })
       if(!response.ok) {
         if(response.status === 422) {
@@ -50,6 +50,7 @@ const NewReviewForm = (props) => {
         const newReviewData = await response.json()
         const newReview = newReviewData.review
         props.addNewReview(newReview)
+        setErrors([])
         clearForm()
       }
     } catch(error) {

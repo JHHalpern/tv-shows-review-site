@@ -11,6 +11,24 @@ const TVDetailsPage = props => {
     reviews: []
   })
 
+  const handleDelete = (reviewId) => {
+    const currentShow = { ...show }
+    const targetIndex = show.reviews.findIndex((review)=> {
+      return review.id === reviewId
+    })
+    currentShow.reviews.splice(targetIndex, 1)
+    setShow(currentShow)
+  }
+
+  const handleEdit = (reviewId, editedReview) => {
+    const currentShow = { ...show }
+    const targetIndex = show.reviews.findIndex((review)=> {
+      return review.id === reviewId
+    })
+    currentShow.reviews.splice(targetIndex, 1, editedReview)
+    setShow(currentShow)
+  }
+
   const showId = useParams().id
   
   const getShow = async () => {
@@ -50,6 +68,8 @@ const TVDetailsPage = props => {
         addNewReview={addNewReview}
         userId={userId}
         getShow={getShow}
+        handleDelete={handleDelete}
+        handleEdit={handleEdit}
       />
     )
   })

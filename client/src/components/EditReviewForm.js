@@ -6,37 +6,34 @@ const EditReviewForm = (props) => {
   const [editReview, setEditReview] = useState({
     body: "",
     score: "",
-    userId: "",
-    reviewId: "",
-    showId: ""
   })
 
   const [errors, setErrors] = useState([])
 
-  const userId = props.userId
-
   const handleInputChange = (event) => {
     setEditReview({
       ...editReview,
-      [event.currentTarget.name]: event.currentTarget.value,
-      userId: userId,
-      reviewId: props.reviewId,
-      showId: props.showId
+      [event.currentTarget.name]: event.currentTarget.value
     })
   }
 
-  const showId = props.showId
-
+  const { showId, userId, reviewId } = props
+  
   const handleSubmit = async (event) => {
     event.preventDefault()
-    props.getShow()
+
+    const editedReview = editReview
+    editedReview.userId = userId
+    editedReview.reviewId = reviewId
+    editedReview.showId = showId
+
     try {
-      const response = await fetch(`/api/v1/shows/${showId}/reviews/edit`, {
+      const response = await fetch(`/api/v1/reviews/edit`, {
         method: "PATCH",
         headers: new Headers({
           "Content-Type": "application/json"
         }),
-        body: JSON.stringify(editReview)
+        body: JSON.stringify(editedReview)
       })
       if(!response.ok) {
         if(response.status === 422) {
@@ -49,9 +46,10 @@ const EditReviewForm = (props) => {
           throw(error)
         }
       } else {
-        const editReviewData = await response.json()
-        props.editNewReview(editReviewData.review)
+        setErrors([])
         clearForm()
+        const updatedReview = await response.json()
+        props.handleEdit(reviewId, updatedReview)
       }
     } catch(error) {
       console.error(`Error in Fetch: ${error.message}`)

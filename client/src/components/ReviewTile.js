@@ -1,7 +1,8 @@
-import React, { useState, useEffect, setStatus } from "react"
+import React, { useState, useEffect } from "react"
 
 import NewReviewForm from "./NewReviewForm.js"
 import EditReviewForm from "./EditReviewForm.js"
+import ReviewDisplay from "./ReviewDisplay.js"
 
 const ReviewTile = (props) => {
   const review = props.review
@@ -9,29 +10,19 @@ const ReviewTile = (props) => {
   let upVotes = 0
   let downVotes = 0
 
-  review.votes.forEach(vote => {
-    if(vote.direction === "up") {
-      upVotes++
-    } else {
-      downVotes++
-    }
-  })
-
   const reviewId = review.id
   const showId = review.showId
  
   const handleDelete = async (event) => {
     event.preventDefault()
-
     try {
-      const response = await fetch(`/api/v1/shows/${showId}/reviews/${reviewId}`, {
+      const response = await fetch(`/api/v1/reviews/${reviewId}`, {
         method: "DELETE"
-      }).then(() => setStatus('Deleted') )
+      })
+      props.handleDelete(reviewId)
     } catch(error) {
       console.error(`Error in Fetch: ${error.message}`)
     }
-    
-    props.getShow() 
   }
 
   const [canEdit, setCanEdit] = useState(false)
@@ -45,9 +36,11 @@ const ReviewTile = (props) => {
     if(canEdit) {
       return (
         <div>
-          <p>Score: {review.score} out of 5</p>
-          <p>{review.body}</p>
-          <p>Upvotes: {upVotes}  Downvotes: {downVotes}</p>
+          <ReviewDisplay
+            review={review}
+            upVotes={upVotes}
+            downVotes={downVotes}
+          />
   
           <div>
             <input 
@@ -65,20 +58,23 @@ const ReviewTile = (props) => {
 
           <EditReviewForm
             userId={props.userId}
-            showId={review.showId}
             editNewReview={props.editNewReview}
-            reviewId={review.id}
             getShow={props.getShow}
+            handleEdit={props.handleEdit}
+            showId={showId}
+            reviewId={reviewId}
           />
         </div>
       )
     } else {
       return (
         <div>
-          <p>Score: {review.score} out of 5</p>
-          <p>{review.body}</p>
-          <p>Upvotes: {upVotes}  Downvotes: {downVotes}</p>
-  
+          <ReviewDisplay
+            review={review}
+            upVotes={upVotes}
+            downVotes={downVotes}
+          />
+
           <div>
             <input 
               type="submit"
@@ -97,11 +93,11 @@ const ReviewTile = (props) => {
     }
   } else {
     return (
-      <div>
-        <p>Score: {review.score} out of 5</p>
-        <p>{review.body}</p>
-        <p>Upvotes: {upVotes}  Downvotes: {downVotes}</p>
-      </div>
+      <ReviewDisplay
+        review={review}
+        upVotes={upVotes}
+        downVotes={downVotes}
+      />
     )
   }
 }

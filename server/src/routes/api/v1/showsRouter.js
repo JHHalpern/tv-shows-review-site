@@ -3,6 +3,8 @@ import objection from "objection"
 const { ValidationError } = objection
 
 import { Show } from "../../../models/index.js"
+import { Review } from "../../../models/index.js"
+import showsReviewRouter from "./showsReviewsRouter.js"
 import ShowSerializer from "../../../serializers/ShowSerializer.js"
 import showsReviewsRouter from "./showsReviewsRouter.js"
 import cleanUserInput from "../../../services/cleanUserInput.js"
@@ -10,6 +12,7 @@ import cleanUserInput from "../../../services/cleanUserInput.js"
 const showsRouter = new express.Router()
 
 showsRouter.use("/:id/reviews", showsReviewsRouter)
+showsRouter.use("/shows/:id", showsReviewRouter)
 
 showsRouter.get("/", async (req, res) => {
   try {
@@ -19,7 +22,6 @@ showsRouter.get("/", async (req, res) => {
         return await ShowSerializer.getSummary(show)
       })
     )
-
     return res.status(200).json({ shows: serializedShows })
   } catch(error) {
     return res.status(500).json({ error })
@@ -40,7 +42,6 @@ showsRouter.post("/", async (req, res) => {
       }
     return res.status(500).json({ error })
   }
-
 })
 
 showsRouter.get("/:id", async(req,res) => {
@@ -49,7 +50,7 @@ showsRouter.get("/:id", async(req,res) => {
     const show = await Show.query().findById(showId)
     const serializedShow = await ShowSerializer.getDetail(show)
     return res.status(200).json({ show: serializedShow })
-  } catch(err){
+  } catch(err) {
     return res.status(500).json({ errors: err })
   }
 })

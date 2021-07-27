@@ -7,7 +7,7 @@ import translateServerErrors from "../services/translateServerErrors"
 const NewShowForm = (props) => {
   const [newShow, setNewShow] = useState({
     name: "",
-    description: "",
+    description: ""
   })
 
   const [shouldRedirect, setShouldRedirect] = useState(false)
