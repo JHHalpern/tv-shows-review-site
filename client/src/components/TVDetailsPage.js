@@ -58,14 +58,15 @@ const TVDetailsPage = props => {
   })
  
   return(
-    <div>
-      <h1>{show.name}</h1>
-      <h4>Description: </h4>
-      {show.description}
+    <div className="callout primary">
+      <div className="callout">
+        <h1>{show.name}</h1>
+        <h4>{show.description}</h4>
       <NewReviewForm 
         showId={id} 
-        addNewReview={addNewReview} 
+        addNewReview={addNewReview}
       />
+      </div>
       <h4>Reviews: </h4>
       {reviewListItems}
     </div>

@@ -49,7 +49,7 @@ const ReviewTile = (props) => {
   }
   
   return (
-    <div>
+    <div className="callout">
       <p>Score: {props.review.score} out of 5</p>
       <p>{props.review.body}</p>
       <div className="votes">
