@@ -24,10 +24,7 @@ showsReviewsRouter.get("/", async (req, res) => {
 }) 
 
 showsReviewsRouter.post("/", async (req,res) => {
-  const showId = req.params.id
-
   const uncleanInput = req.body
-
   const showId = req.params.id
   const userId = req.body.userId
   uncleanInput.showId = showId

@@ -4,13 +4,19 @@ const { ValidationError } = objection
 import { Vote, Review } from "../../../models/index.js"
 import cleanUserInput from "../../../services/cleanUserInput.js"
 import VoteSerializer from "../../../serializers/VoteSerializer.js"
+import ReviewSerializer from "../../../serializers/ReviewSerializer.js"
 
 const reviewsRouter = new express.Router()
 
 reviewsRouter.delete("/:id", async (req, res) => {
     try {
       const reviewId = req.params.id
-      await Review.query().deleteById(reviewId)
+      const review = await Review.query().findById(reviewId)
+      const votes = await review.$relatedQuery("votes")
+      for (const vote of votes) {
+        await Vote.query().deleteById(vote.id)
+      }
+      const deleted = await Review.query().deleteById(reviewId)
       return res.status(200).json()
     } catch(error) {
       return res.status(500).json({ error })
@@ -27,7 +33,8 @@ reviewsRouter.patch("/edit", async (req, res) => {
       showId: editedReview.showId,
       userId: editedReview.userId
     })
-    return res.status(200).json(editedFormattedReview)
+    const serializedReview = await ReviewSerializer.getDetail(editedFormattedReview)
+    return res.status(200).json(serializedReview)
   } catch(error) {
     if(error instanceof ValidationError) {
       return res.status(422).json({ errors: error.data })

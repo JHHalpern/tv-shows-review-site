@@ -107,10 +107,11 @@ const ReviewTile = (props) => {
 
   return (
     <div>
-      <ReviewDisplay
+      <ReviewDisplay 
         review={review}
-        upVotes={upVotes}
-        downVotes={downVotes}
+        voteError={voteError}
+        upButton={upButton}
+        downButton={downButton}
       />
       
       {editDeleteButtons}

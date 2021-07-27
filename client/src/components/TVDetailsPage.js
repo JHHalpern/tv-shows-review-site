@@ -85,7 +85,7 @@ const TVDetailsPage = props => {
       <NewReviewForm 
         showId={id} 
         addNewReview={addNewReview}
-        userId={userId}
+        userId={props.userId}
       />
       </div>
       <h4>Reviews: </h4>
