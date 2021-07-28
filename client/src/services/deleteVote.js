@@ -1,6 +1,6 @@
 const deleteVote = async (voteId) => {
   try{
-    const response = await fetch("api/v1/votes", {
+    const response = await fetch(`/api/v1/votes/${voteId}`, {
       method: "DELETE"
     })
   } catch(err) {

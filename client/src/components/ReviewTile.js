@@ -12,12 +12,15 @@ const ReviewTile = (props) => {
     if(existingVote) {
       if(existingVote.direction === event.currentTarget.value) {
         deleteVote(existingVote.id)
+        props.updateVotesOnPage()
       } else {
-        //switch vote
+        if(event.currentTarget.value === "up") {
+          const newDirection = "down"
+        }
       }
     } else {
       const newVote = await addNewVoteToTable(props.userId, event.currentTarget.value, props.review.id)
-      props.addNewVoteToPage(newVote, props.review.id)
+      props.updateVotesOnPage()
     }
   }
 
