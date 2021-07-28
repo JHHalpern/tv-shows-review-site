@@ -5,6 +5,17 @@ const ShowsList = (props) => {
   const [shows, setShows] = useState([])
   const [searchData, setSearchData] = useState("")
 
+  let searchedShows = []
+  if(shows.length > 0) {
+    shows.forEach(show => {
+      if(show.name.toLowerCase().includes(searchData.toLowerCase()) && !searchedShows.includes(show)) {
+        searchedShows.push(show)
+      } else if (!show.name.toLowerCase().includes(searchData.toLowerCase()) && searchedShows.includes(show)) {
+        searchedShows = searchedShows.filter(searchedShow => searchedShow !== show)
+      }
+    })
+  }
+
   const fetchShows = async () => {
     try {
       const response = await fetch("/api/v1/shows")
@@ -25,7 +36,7 @@ const ShowsList = (props) => {
     fetchShows()
   }, [])
 
-  const showList = shows.map( show => {
+  let showList = searchedShows.map( show => {
     return (
       <ShowTile
         key={show.id}
@@ -35,6 +46,14 @@ const ShowsList = (props) => {
       />
     )
   })
+
+  if(showList.length === 0) {
+    showList = (
+      <div className="search_error">
+        <p>No matching results found!</p>
+      </div>
+    )
+  }
 
   const handleChange = (event) => {
     setSearchData(event.currentTarget.value)
