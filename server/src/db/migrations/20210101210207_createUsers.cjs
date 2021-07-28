@@ -27,7 +27,7 @@ exports.up = async (knex) => {
 };
 
 /**
- * @param {Knex} knex
+ * @param {Knex} knexpe
  */
 exports.down = async (knex) => {
   console.log(`Rolling back ${tableName}`);

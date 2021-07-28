@@ -8,17 +8,18 @@ class Review extends Model {
   static get jsonSchema() {
     return {
       type: "object",
-      required: ["body", "score", "showId"],
+      required: ["body", "score", "showId", "userId"],
       properties: {
         reviewBody: { type: "string", minLength: 10 },
         score: { type: "number", minimum: 1, maximum: 5 },
-        showId: { type: "number" }
+        showId: { type: "number" },
+        userId: { type: "number" }
       }
     }
   }
   
   static get relationMappings() {
-    const { Show, Vote } = require("./index.js")
+    const { Show, Vote, User } = require("./index.js")
 
     return {
       show: {
@@ -35,6 +36,14 @@ class Review extends Model {
         join: {
           from: "reviews.id",
           to: "votes.reviewId"
+        }
+      },
+      user: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: User,
+        join: {
+          from: "reviews.userId",
+          to: "users.id"
         }
       }
     }

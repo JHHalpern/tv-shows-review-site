@@ -1,9 +1,13 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
+import NewReviewForm from "./NewReviewForm.js"
+import EditReviewForm from "./EditReviewForm.js"
+import ReviewDisplay from "./ReviewDisplay.js"
 import addNewVoteToTable from "../services/addNewVoteToTable.js"
 
 const ReviewTile = (props) => {
   const [alreadyVoted, setAlreadyVoted] = useState(false)
-
+  const [canEdit, setCanEdit] = useState(false)
+  
   const handleClick = async (event) => {
     const existingVote = props.review.votes.find(vote => vote.userId === props.userId) 
     if(existingVote) {
@@ -17,12 +21,39 @@ const ReviewTile = (props) => {
       props.addNewVoteToPage(newVote, props.review.id)
     }
   }
-  
+
+  const review = props.review
+  const reviewId = review.id
+  const showId = review.showId
+ 
+  const handleDelete = async (event) => {
+    event.preventDefault()
+    try {
+      const response = await fetch(`/api/v1/reviews/${reviewId}`, {
+        method: "DELETE"
+      })
+      if(!response.ok) {
+        const errorMessage = `${response.status}: (${response.statusText})`
+        const error = new Error(errorMessage)
+        throw(error)
+      } else {
+        props.handleDelete(reviewId)
+      }
+    } catch(error) {
+      console.error(`Error in Fetch: ${error.message}`)
+    }
+  }
+
+  const handleEdit = (event) => {
+    event.preventDefault()
+    setCanEdit(!canEdit)
+  }
+
   let voteError
   if(props.showError && alreadyVoted) {
     voteError = <p>You've already voted on this review!</p>
   }
-
+  
   let upButton
   let downButton
   if(props.userId) {
@@ -47,18 +78,51 @@ const ReviewTile = (props) => {
       </button>
     )
   }
-  
-  return (
-    <div className="callout">
-      <p>Score: {props.review.score} out of 5</p>
-      <p>{props.review.body}</p>
-      <div className="votes">
-        {voteError}
-        {upButton}
-        <p className="vote_text"> Upvotes: {props.review.upVotes} </p>
-        {downButton}
-        <p className="vote_text"> Downvotes: {props.review.downVotes} </p>
+
+  let editDeleteButtons
+  if(props.userId === review.userId) {
+    editDeleteButtons = (
+      <div>
+        <input 
+          type="submit"
+          value="Edit"
+          onClick={handleEdit}
+        />
+
+        <input 
+          type="submit"
+          value="Delete"
+          onClick={handleDelete}
+        />
       </div>
+    )
+  }
+
+  let editForm
+  if(canEdit && props.userId === review.userId) {
+    editForm = (
+      <EditReviewForm
+        userId={props.userId}
+        editNewReview={props.editNewReview}
+        handleEdit={props.handleEdit}
+        showId={showId}
+        reviewId={reviewId}
+      />
+    )
+  }
+
+  return (
+    <div>
+      <ReviewDisplay 
+        review={review}
+        voteError={voteError}
+        upButton={upButton}
+        downButton={downButton}
+      />
+      
+      {editDeleteButtons}
+
+      {editForm}
     </div>
   )
 }
