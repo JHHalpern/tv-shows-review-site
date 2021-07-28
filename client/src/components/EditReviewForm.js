@@ -26,7 +26,7 @@ const EditReviewForm = ({ showId, userId, reviewId, handleEdit }) => {
     editedReview.showId = showId
 
     try {
-      const response = await fetch(`/api/v1/reviews/edit`, {
+      const response = await fetch(`/api/v1/reviews/${reviewId}/edit`, {
         method: "PATCH",
         headers: new Headers({
           "Content-Type": "application/json"

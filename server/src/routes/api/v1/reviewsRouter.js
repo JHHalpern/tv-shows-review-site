@@ -23,7 +23,7 @@ reviewsRouter.delete("/:id", async (req, res) => {
     }
   })
 
-reviewsRouter.patch("/edit", async (req, res) => {
+reviewsRouter.patch("/:id/edit", async (req, res) => {
   try {
     const editedReview = cleanUserInput(req.body)
     const reviewId = editedReview.reviewId
