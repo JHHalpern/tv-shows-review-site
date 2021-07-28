@@ -1,6 +1,6 @@
 class VoteSerializer {
   static getSummary(vote) {
-    const allowedAttributes = ["direction", "userId"]
+    const allowedAttributes = ["direction", "userId", "id"]
     
     let serializedVote = {}
     allowedAttributes.forEach(attribute => {

@@ -1,22 +1,21 @@
 import React, { useState, useEffect } from "react"
-import NewReviewForm from "./NewReviewForm.js"
 import EditReviewForm from "./EditReviewForm.js"
 import ReviewDisplay from "./ReviewDisplay.js"
 import addNewVoteToTable from "../services/addNewVoteToTable.js"
+import deleteVote from "../services/deleteVote.js"
 
 const ReviewTile = (props) => {
-  const [alreadyVoted, setAlreadyVoted] = useState(false)
   const [canEdit, setCanEdit] = useState(false)
   
   const handleClick = async (event) => {
     const existingVote = props.review.votes.find(vote => vote.userId === props.userId) 
     if(existingVote) {
-      setAlreadyVoted(true)
-      props.setShowError(true)
-    }  
-    if(!existingVote) {
-      setAlreadyVoted(false)
-      props.setShowError(false)
+      if(existingVote.direction === event.currentTarget.value) {
+        deleteVote(existingVote.id)
+      } else {
+        //switch vote
+      }
+    } else {
       const newVote = await addNewVoteToTable(props.userId, event.currentTarget.value, props.review.id)
       props.addNewVoteToPage(newVote, props.review.id)
     }
@@ -41,11 +40,6 @@ const ReviewTile = (props) => {
   const handleEdit = (event) => {
     event.preventDefault()
     setCanEdit(!canEdit)
-  }
-
-  let voteError
-  if(props.showError && alreadyVoted) {
-    voteError = <p>You've already voted on this review!</p>
   }
   
   let upButton
@@ -109,13 +103,10 @@ const ReviewTile = (props) => {
     <div>
       <ReviewDisplay 
         review={review}
-        voteError={voteError}
         upButton={upButton}
         downButton={downButton}
       />
-      
       {editDeleteButtons}
-
       {editForm}
     </div>
   )

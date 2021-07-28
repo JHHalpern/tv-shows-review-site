@@ -10,7 +10,6 @@ const TVDetailsPage = props => {
     description: "",
   })
   const [reviews, setReviews] = useState([])
-  const [showError, setShowError] = useState(false)
 
   const { id } = useParams()
 
@@ -68,8 +67,6 @@ const TVDetailsPage = props => {
         key={review.id}
         review={review}
         userId={props.userId}
-        showError={showError}
-        setShowError={setShowError}
         addNewVoteToPage={addNewVoteToPage}
         handleDelete={handleDelete}
         handleEdit={handleEdit}
