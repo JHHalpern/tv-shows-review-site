@@ -10,11 +10,27 @@ const TVDetailsPage = props => {
     description: "",
   })
   const [reviews, setReviews] = useState([])
+  const [canEdit, setCanEdit] = useState(false)
   const [showError, setShowError] = useState(false)
 
   const { id } = useParams()
 
-  const handleDelete = (reviewId) => {
+  const handleDeleteShow = () => {
+    event.preventDefault()
+    try {
+      const response = await fetch("", {
+        method: "DELETE"
+      })
+    } catch(error) {
+      console.error(`Error in Fetch: ${error.message}`)
+    }
+  }
+
+  const handleEditShow = () => {
+
+  }
+
+  const handleDeleteReview = (reviewId) => {
     const currentReviews = [...reviews]
     const targetIndex = reviews.findIndex((review)=> {
       return review.id === reviewId
@@ -23,7 +39,7 @@ const TVDetailsPage = props => {
     setReviews(currentReviews)
   }
 
-  const handleEdit = (reviewId, editedReview) => {
+  const handleEditReview = (reviewId, editedReview) => {
     const currentReviews = [...reviews]
     const targetIndex = reviews.findIndex((review)=> {
       return review.id === reviewId
@@ -62,17 +78,37 @@ const TVDetailsPage = props => {
     setReviews(newReviews)
   }
 
+  let editDeleteButtons
+  if(props.admin === true) {
+    editDeleteButtons = (
+      <div>
+        <input 
+          type="submit"
+          value="Edit"
+          onClick={handleEditShow}
+        />
+
+        <input 
+          type="submit"
+          value="Delete"
+          onClick={handleDeleteShow}
+        />
+      </div>
+    )
+  }
+
   const reviewListItems = reviews.map(review => {
     return (
       <ReviewTile
         key={review.id}
         review={review}
         userId={props.userId}
+        admin={props.admin}
         showError={showError}
         setShowError={setShowError}
         addNewVoteToPage={addNewVoteToPage}
-        handleDelete={handleDelete}
-        handleEdit={handleEdit}
+        handleDelete={handleDeleteReview}
+        handleEdit={handleEditReview}
       />
     )
   })

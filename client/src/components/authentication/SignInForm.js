@@ -33,13 +33,18 @@ const SignInForm = () => {
     event.preventDefault();
     validateInput(userPayload);
     if (Object.keys(errors).length === 0) {
+    console.log("there were no errors!")
+      console.log("userPayLoad below")
+      console.log(userPayload) // a ~User object
       fetch("/api/v1/user-sessions", {
         method: "post",
         body: JSON.stringify(userPayload),
         headers: new Headers({
           "Content-Type": "application/json",
         }),
+        credentials: "include"   ////
       }).then((resp) => {
+        console.log(`response.ok: ${resp.ok}`)
         if (resp.ok) {
           resp.json().then(() => {
             setShouldRedirect(true);

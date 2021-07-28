@@ -5,19 +5,23 @@ class UsersSeeder {
     const userData = [
       {
         email: "thisshowsux@gmail.com",
-        cryptedPassword: "thisshowsux"
+        cryptedPassword: "thisshowsux",
+        admin: true
       },
       {
         email: "ilikemovies@gmail.com",
-        cryptedPassword: "password"
+        cryptedPassword: "password",
+        admin: false
       },
       {
         email: "supergoodemail@gmail.com",
-        cryptedPassword: "12345"
+        cryptedPassword: "12345",
+        admin: false
       },
       {
         email: "nicksSECRETemail@gmail.com",
-        cryptedPassword: "nickisthebest"
+        cryptedPassword: "nickisthebest",
+        admin: false
       }
     ]
 

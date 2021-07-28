@@ -74,7 +74,7 @@ const ReviewTile = (props) => {
   }
 
   let editDeleteButtons
-  if(props.userId === review.userId) {
+  if(props.userId === review.userId || props.admin === true) {
     editDeleteButtons = (
       <div>
         <input 
