@@ -60,4 +60,16 @@ reviewsRouter.post("/:id/vote", async (req, res) => {
   }
 })
 
+reviewsRouter.patch("/:id/vote", async (req, res) => {
+  const reviewId = req.params.id
+  const newVoteData = req.body
+  newVoteData.reviewId = reviewId
+  const cleanedData = cleanUserInput(newVoteData)
+  try {
+    
+  } catch(err) {
+
+  }
+})
+
 export default reviewsRouter
