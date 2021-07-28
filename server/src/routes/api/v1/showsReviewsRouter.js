@@ -5,9 +5,9 @@ import ReviewSerializer from "../../../serializers/ReviewSerializer.js"
 import { Review, Show } from "../../../models/index.js"
 import cleanUserInput from "../../../services/cleanUserInput.js"
 
-const reviewsRouter = new express.Router({ mergeParams: true})
+const showsReviewsRouter = new express.Router({ mergeParams: true})
 
-reviewsRouter.get("/", async (req, res) => {
+showsReviewsRouter.get("/", async (req, res) => {
   const showId = req.params.id
   try {
     const show = await Show.query().findById(showId)
@@ -23,10 +23,13 @@ reviewsRouter.get("/", async (req, res) => {
   }
 }) 
 
-reviewsRouter.post("/", async (req,res) => {
-  const showId = req.params.id
+showsReviewsRouter.post("/", async (req,res) => {
   const uncleanInput = req.body
+  const showId = req.params.id
+  const userId = req.body.userId
   uncleanInput.showId = showId
+  uncleanInput.userId = userId
+
   const formInput = cleanUserInput(uncleanInput)
   
   try {
@@ -41,4 +44,4 @@ reviewsRouter.post("/", async (req,res) => {
   }  
 })
 
-export default reviewsRouter
+export default showsReviewsRouter

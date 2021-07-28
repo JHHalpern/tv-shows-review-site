@@ -11,8 +11,26 @@ const TVDetailsPage = props => {
   })
   const [reviews, setReviews] = useState([])
   const [showError, setShowError] = useState(false)
-  
+
   const { id } = useParams()
+
+  const handleDelete = (reviewId) => {
+    const currentReviews = [...reviews]
+    const targetIndex = reviews.findIndex((review)=> {
+      return review.id === reviewId
+    })
+    currentReviews.splice(targetIndex, 1)
+    setReviews(currentReviews)
+  }
+
+  const handleEdit = (reviewId, editedReview) => {
+    const currentReviews = [...reviews]
+    const targetIndex = reviews.findIndex((review)=> {
+      return review.id === reviewId
+    })
+    currentReviews.splice(targetIndex, 1, editedReview)
+    setReviews(currentReviews)
+  }
   
   const getShow = async () => {
     try {
@@ -53,6 +71,8 @@ const TVDetailsPage = props => {
         showError={showError}
         setShowError={setShowError}
         addNewVoteToPage={addNewVoteToPage}
+        handleDelete={handleDelete}
+        handleEdit={handleEdit}
       />
     )
   })
@@ -65,6 +85,7 @@ const TVDetailsPage = props => {
       <NewReviewForm 
         showId={id} 
         addNewReview={addNewReview}
+        userId={props.userId}
       />
       </div>
       <h4>Reviews: </h4>
