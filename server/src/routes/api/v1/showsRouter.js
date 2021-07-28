@@ -11,7 +11,6 @@ import cleanUserInput from "../../../services/cleanUserInput.js"
 const showsRouter = new express.Router()
 
 showsRouter.use("/:id/reviews", showsReviewsRouter)
-showsRouter.use("/shows/:id", showsReviewRouter)
 
 showsRouter.get("/", async (req, res) => {
   try {

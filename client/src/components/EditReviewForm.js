@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import ErrorList from "./ErrorList"
 import translateServerErrors from "../services/translateServerErrors"
 
-const EditReviewForm = (props) => {
+const EditReviewForm = ({ showId, userId, reviewId, handleEdit }) => {
   const [editReview, setEditReview] = useState({
     body: "",
     score: "",
@@ -16,9 +16,7 @@ const EditReviewForm = (props) => {
       [event.currentTarget.name]: event.currentTarget.value
     })
   }
-
-  const { showId, userId, reviewId } = props
-  
+    
   const handleSubmit = async (event) => {
     event.preventDefault()
 
@@ -49,7 +47,7 @@ const EditReviewForm = (props) => {
         setErrors([])
         clearForm()
         const updatedReview = await response.json()
-        props.handleEdit(reviewId, updatedReview)
+        handleEdit(reviewId, updatedReview)
       }
     } catch(error) {
       console.error(`Error in Fetch: ${error.message}`)
