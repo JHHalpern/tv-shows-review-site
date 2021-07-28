@@ -17,7 +17,6 @@ const NewReviewForm = (props) => {
     setNewReview({
       ...newReview,
       [event.currentTarget.name]: event.currentTarget.value,
-      votes: []
     })
   }
 
