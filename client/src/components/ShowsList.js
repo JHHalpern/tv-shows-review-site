@@ -3,6 +3,7 @@ import ShowTile from "./ShowTile.js"
 
 const ShowsList = (props) => {
   const [shows, setShows] = useState([])
+  const [searchData, setSearchData] = useState("")
 
   const fetchShows = async () => {
     try {
@@ -35,9 +36,23 @@ const ShowsList = (props) => {
     )
   })
 
+  const handleChange = (event) => {
+    setSearchData(event.currentTarget.value)
+  }
+
   return (
     <div className="callout primary">
       <h1>TV Shows</h1>
+      <div>
+        <label htmlFor="search">Search: </label>
+        <input 
+          type="text" 
+          id="search" 
+          name="search" 
+          value={searchData}
+          onChange={handleChange}
+        ></input>
+      </div>
       <div id="shows">
         {showList}
       </div>
