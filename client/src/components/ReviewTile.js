@@ -7,8 +7,9 @@ import editVote from "../services/editVote.js"
 
 const ReviewTile = (props) => {
   const [canEdit, setCanEdit] = useState(false)
-  
-  const existingVote = props.review.votes.find(vote => vote.userId === props.userId) 
+
+  const existingVote = props.review.votes.find(vote => vote.userId === props.userId)
+
   const handleClick = async (event) => {
     if(existingVote) {
       if(existingVote.direction === event.currentTarget.value) {
@@ -44,29 +45,46 @@ const ReviewTile = (props) => {
     event.preventDefault()
     setCanEdit(!canEdit)
   }
-  
-  let upButton
-  let downButton
+
+  let votesDiv
   if(props.userId) {
-    upButton = (
+    let directionUp = false
+    let directionDown = false
+    if(existingVote) {
+      if(existingVote.direction === "up") {
+        directionUp = true
+      } else if (existingVote.direction === "down") {
+        directionDown = true
+      }
+    }
+    votesDiv = (
+      <div>
       <button 
         type="button" 
-        className="vote_button"
+        className={directionUp ? "selected_vote_button" : "vote_button"}
         value="up"
         onClick={handleClick}
       >
         &#x2191;Vote
       </button>
-    )
-    downButton = (
+      <p className="vote_text"> Upvotes: {props.review.upVotes} </p>
       <button 
         type="button" 
-        className="vote_button" 
+        className={directionDown ? "selected_vote_button" : "vote_button"} 
         value="down"
         onClick={handleClick}
       >
         &#x2193;Vote
       </button>
+      <p className="vote_text"> Downvotes: {props.review.downVotes} </p>
+    </div>
+    )
+  } else {
+    votesDiv = (
+    <div>
+      <p className="vote_text"> Upvotes: {props.review.upVotes} </p>
+      <p className="vote_text"> Downvotes: {props.review.downVotes} </p>
+    </div>
     )
   }
 
@@ -106,8 +124,7 @@ const ReviewTile = (props) => {
     <div>
       <ReviewDisplay 
         review={review}
-        upButton={upButton}
-        downButton={downButton}
+        votesDiv={votesDiv}
       />
       {editDeleteButtons}
       {editForm}

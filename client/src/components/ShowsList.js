@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react"
+import { Link } from "react-router-dom"
 import ShowTile from "./ShowTile.js"
 
 const ShowsList = (props) => {
@@ -41,6 +42,7 @@ const ShowsList = (props) => {
       <div id="shows">
         {showList}
       </div>
+      <Link to="/shows/new"><button className="button">Add A New Show!</button></Link>
     </div>
   )
 }
