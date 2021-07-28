@@ -11,9 +11,9 @@ class Review extends Model {
       required: ["body", "score", "showId", "userId"],
       properties: {
         reviewBody: { type: "string", minLength: 10 },
-        score: { type: "number", minimum: 1, maximum: 5 },
-        showId: { type: "number" },
-        userId: { type: "number" }
+        score: { type: "integer", minimum: 1, maximum: 5 },
+        showId: { type: "integer" },
+        userId: { type: "integer" }
       }
     }
   }

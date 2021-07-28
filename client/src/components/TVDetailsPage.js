@@ -10,7 +10,6 @@ const TVDetailsPage = props => {
     description: "",
   })
   const [reviews, setReviews] = useState([])
-  const [showError, setShowError] = useState(false)
 
   const { id } = useParams()
 
@@ -57,7 +56,7 @@ const TVDetailsPage = props => {
     setReviews(updatedReviews)
   }
 
-  const addNewVoteToPage = async () => {
+  const updateVotesOnPage = async () => {
     const newReviews = await fetchReviews(id)
     setReviews(newReviews)
   }
@@ -68,9 +67,7 @@ const TVDetailsPage = props => {
         key={review.id}
         review={review}
         userId={props.userId}
-        showError={showError}
-        setShowError={setShowError}
-        addNewVoteToPage={addNewVoteToPage}
+        updateVotesOnPage={updateVotesOnPage}
         handleDelete={handleDelete}
         handleEdit={handleEdit}
       />
