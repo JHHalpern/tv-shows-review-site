@@ -30,10 +30,8 @@ showsReviewsRouter.post("/", async (req,res) => {
   uncleanInput.showId = showId
   uncleanInput.userId = userId
   const formInput = cleanUserInput(uncleanInput)
-  console.log(formInput)
   try {
     const newReview = await Review.query().insertAndFetch(formInput)
-    console.log(newReview)
     const serializedReview = await ReviewSerializer.getDetail(newReview)
     return res.status(201).json({ review: serializedReview })
   } catch(error) {

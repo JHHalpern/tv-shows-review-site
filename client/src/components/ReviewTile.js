@@ -46,48 +46,6 @@ const ReviewTile = (props) => {
     setCanEdit(!canEdit)
   }
 
-  let votesDiv
-  if(props.userId) {
-    let directionUp = false
-    let directionDown = false
-    if(existingVote) {
-      if(existingVote.direction === "up") {
-        directionUp = true
-      } else if (existingVote.direction === "down") {
-        directionDown = true
-      }
-    }
-    votesDiv = (
-      <div>
-      <button 
-        type="button" 
-        className={directionUp ? "selected_vote_button" : "vote_button"}
-        value="up"
-        onClick={handleClick}
-      >
-        &#x2191;Vote
-      </button>
-      <p className="vote_text"> Upvotes: {props.review.upVotes} </p>
-      <button 
-        type="button" 
-        className={directionDown ? "selected_vote_button" : "vote_button"} 
-        value="down"
-        onClick={handleClick}
-      >
-        &#x2193;Vote
-      </button>
-      <p className="vote_text"> Downvotes: {props.review.downVotes} </p>
-    </div>
-    )
-  } else {
-    votesDiv = (
-    <div>
-      <p className="vote_text"> Upvotes: {props.review.upVotes} </p>
-      <p className="vote_text"> Downvotes: {props.review.downVotes} </p>
-    </div>
-    )
-  }
-
   let editDeleteButtons
   if(props.userId === review.userId) {
     editDeleteButtons = (
@@ -124,7 +82,9 @@ const ReviewTile = (props) => {
     <div>
       <ReviewDisplay 
         review={review}
-        votesDiv={votesDiv}
+        userId={props.userId}
+        existingVote={existingVote}
+        handleClick={handleClick}
       />
       {editDeleteButtons}
       {editForm}
