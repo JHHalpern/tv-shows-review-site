@@ -3,20 +3,20 @@ import EditReviewForm from "./EditReviewForm.js"
 import ReviewDisplay from "./ReviewDisplay.js"
 import addNewVoteToTable from "../services/addNewVoteToTable.js"
 import deleteVote from "../services/deleteVote.js"
+import editVote from "../services/editVote.js"
 
 const ReviewTile = (props) => {
   const [canEdit, setCanEdit] = useState(false)
   
+  const existingVote = props.review.votes.find(vote => vote.userId === props.userId) 
   const handleClick = async (event) => {
-    const existingVote = props.review.votes.find(vote => vote.userId === props.userId) 
     if(existingVote) {
       if(existingVote.direction === event.currentTarget.value) {
         deleteVote(existingVote.id)
         props.updateVotesOnPage()
       } else {
-        if(event.currentTarget.value === "up") {
-          const newDirection = "down"
-        }
+        editVote(existingVote)
+        props.updateVotesOnPage()
       }
     } else {
       const newVote = await addNewVoteToTable(props.userId, event.currentTarget.value, props.review.id)
