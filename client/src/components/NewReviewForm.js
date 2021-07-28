@@ -6,7 +6,6 @@ const NewReviewForm = (props) => {
   const [newReview, setNewReview] = useState({
     body: "",
     score: "",
-    votes: ""
   })
 
   const [errors, setErrors] = useState([])
@@ -17,7 +16,6 @@ const NewReviewForm = (props) => {
     setNewReview({
       ...newReview,
       [event.currentTarget.name]: event.currentTarget.value,
-      votes: []
     })
   }
 
