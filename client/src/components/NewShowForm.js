@@ -53,10 +53,10 @@ const NewShowForm = (props) => {
   }
 
   return (
-    <div>
+    <div className="callout primary">
       <h1>Submit a New Show</h1>
       <ErrorList errors={errors} />
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="callout">
         <label htmlFor="name">Name: </label>
         <input
           type="text"
