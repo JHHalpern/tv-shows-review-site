@@ -7,22 +7,22 @@ class UsersSeeder {
     const userData = [
       {
         email: "thisshowsux@gmail.com",
-        password: process.env.PASSWORD_thisshowsux,
+        password: "thisshowsux",
         admin: true
       },
       {
         email: "ilikemovies@gmail.com",
-        password: process.env.PASSWORD_ilikemovies,
+        password: "password",
         admin: false
       },
       {
         email: "supergoodemail@gmail.com",
-        password: process.env.PASSWORD_supergoodemail,
+        password: "12345",
         admin: false
       },
       {
         email: "nicksSECRETemail@gmail.com",
-        password: process.env.PASSWORD_nicksSECRETemail,
+        password: "nickisthebest",
         admin: false
       },
     ]

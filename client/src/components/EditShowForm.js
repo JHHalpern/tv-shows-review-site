@@ -20,7 +20,6 @@ const EditShowForm = ({ showId, userId, handleEditShow }) => {
   const handleSubmit = async (event) => {
     event.preventDefault()
     const editedShow = editShow
-    editedShow.userId = userId
 
     try {
       const response = await fetch(`/api/v1/shows/${showId}`, {
