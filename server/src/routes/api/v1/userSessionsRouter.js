@@ -4,13 +4,10 @@ import passport from "passport";
 const sessionRouter = new express.Router();
 
 sessionRouter.post("/", (req, res, next) => {
-  console.log("hello")
   return passport.authenticate("local", (err, user) => {
     if (err) {
-      console.log("error")
     }
     if (user) {
-      console.log("user")
       return req.login(user, () => {
         return res.status(201).json(user);
       });
