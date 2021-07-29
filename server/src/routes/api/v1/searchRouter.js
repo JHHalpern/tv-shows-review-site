@@ -12,7 +12,6 @@ searchRouter.get("/", async (req, res) => {
         return await ShowSerializer.getSummary(show)
       })
     )
-    console.log(serializedShows)
     return res.status(200).json({ shows: serializedShows })
   } catch(error) {
     return res.status(500).json({ error })
@@ -29,7 +28,6 @@ searchRouter.get("/:searchQuery", async (req, res) => {
         return await ShowSerializer.getSummary(show)
       })
     )
-    console.log(serializedShows)
     return res.status(200).json({ shows: serializedShows })
   } catch(error) {
     return res.status(500).json({ error })

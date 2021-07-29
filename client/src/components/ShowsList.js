@@ -28,12 +28,6 @@ const ShowsList = (props) => {
     fetchShows()
   }, [])
 
-
-  // let searchedShows = []
-  // if(shows.length > 0) {
-  //   searchedShows = shows.filter(show => show.name.toLowerCase().includes(searchData.toLowerCase()))
-  // }
-
   let showList = searchedShows.map( show => {
     return (
       <ShowTile
