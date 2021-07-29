@@ -1,24 +1,30 @@
 import { User } from "../../models/index.js"
+import dotenv from "dotenv"
+dotenv.config()
 
 class UsersSeeder {
   static async seed() {
     const userData = [
       {
         email: "thisshowsux@gmail.com",
-        cryptedPassword: "thisshowsux"
+        password: process.env.PASSWORD_thisshowsux,
+        admin: true
       },
       {
         email: "ilikemovies@gmail.com",
-        cryptedPassword: "password"
+        password: process.env.PASSWORD_ilikemovies,
+        admin: false
       },
       {
         email: "supergoodemail@gmail.com",
-        cryptedPassword: "12345"
+        password: process.env.PASSWORD_supergoodemail,
+        admin: false
       },
       {
         email: "nicksSECRETemail@gmail.com",
-        cryptedPassword: "nickisthebest"
-      }
+        password: process.env.PASSWORD_nicksSECRETemail,
+        admin: false
+      },
     ]
 
     for(const singleUser of userData) {
