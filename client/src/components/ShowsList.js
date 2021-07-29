@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import ShowTile from "./ShowTile.js"
+import searchShows from "../services/searchShows.js"
 
 const ShowsList = (props) => {
   const [shows, setShows] = useState([])
+  const [searchedShows, setSearchedShows] = useState([])
   const [searchData, setSearchData] = useState("")
 
   const fetchShows = async () => {
@@ -25,11 +27,12 @@ const ShowsList = (props) => {
   useEffect(() => {
     fetchShows()
   }, [])
-  
-  let searchedShows = []
-  if(shows.length > 0) {
-    searchedShows = shows.filter(show => show.name.toLowerCase().includes(searchData.toLowerCase()))
-  }
+
+
+  // let searchedShows = []
+  // if(shows.length > 0) {
+  //   searchedShows = shows.filter(show => show.name.toLowerCase().includes(searchData.toLowerCase()))
+  // }
 
   let showList = searchedShows.map( show => {
     return (
@@ -53,6 +56,16 @@ const ShowsList = (props) => {
   const handleChange = (event) => {
     setSearchData(event.currentTarget.value)
   }
+
+  const handleSearch = async (searchData) => {
+    const searchResults = await searchShows(searchData)
+    setSearchedShows(searchResults)
+  }
+
+  useEffect(() => {
+    handleSearch(searchData)
+  }, [searchData])
+ 
 
   return (
     <div className="callout primary">
