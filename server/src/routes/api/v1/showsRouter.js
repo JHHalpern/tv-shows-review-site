@@ -63,7 +63,7 @@ showsRouter.delete("/:id", async (req, res) => {
     const showId = req.params.id
     const show = await Show.query().findById(showId)
     const reviews = await show.$relatedQuery("reviews")
-    for (const review of review) {
+    for (const review of reviews) {
       await review.$relatedQuery("votes").delete()
     }
     await show.$relatedQuery("reviews").delete()
