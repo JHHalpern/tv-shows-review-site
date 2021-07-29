@@ -7,7 +7,7 @@
  */
 exports.up = async (knex) => {
     return knex.schema.table("users", (table) => {
-        table.boolean("admin").notNullable()
+        table.boolean("admin").defaultTo(false).notNullable()
     })
 }
 

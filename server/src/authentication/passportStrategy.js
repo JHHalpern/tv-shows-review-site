@@ -5,7 +5,7 @@ import User from "../models/User.js";
 const authHandler = (email, password, done) => {
   User.query()
     .findOne({ email })
-    .then((user) => {
+    .then((user) => {   
       if (user) {
         if (user.authenticate(password)) {
           return done(null, user);

@@ -13,7 +13,7 @@ const ReviewTile = (props) => {
     if(existingVote) {
       setAlreadyVoted(true)
       props.setShowError(true)
-    }  
+  }  
     if(!existingVote) {
       setAlreadyVoted(false)
       props.setShowError(false)
@@ -99,7 +99,7 @@ const ReviewTile = (props) => {
   }
 
   let editForm
-  if(canEdit && props.userId === review.userId) {
+  if(canEdit && (props.userId === review.userId || props.admin === true)) {
     editForm = (
       <EditReviewForm
         userId={props.userId}

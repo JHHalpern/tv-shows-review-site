@@ -1,8 +1,7 @@
 import express from "express"
 import objection from "objection"
 const { ValidationError } = objection
-import { Show } from "../../../models/index.js"
-import { Review } from "../../../models/index.js"
+import { Show, Review, Vote } from "../../../models/index.js"
 import showsReviewRouter from "./showsReviewsRouter.js"
 import ShowSerializer from "../../../serializers/ShowSerializer.js"
 import showsReviewsRouter from "./showsReviewsRouter.js"
@@ -38,6 +37,49 @@ showsRouter.post("/", async (req, res) => {
       if(error instanceof ValidationError) {
         return res.status(422).json({ errors: error.data })
       }
+    return res.status(500).json({ error })
+  }
+})
+
+showsRouter.patch("/:id", async (req, res) => {
+  try {
+    const editedShow = cleanUserInput(req.body)
+    const showId = req.params.id
+    const editedFormattedShow = await Show.query().updateAndFetchById(showId, {
+      name: editedShow.name,
+      description: editedShow.description
+    })
+    const serializedShow = await ShowSerializer.getDetail(editedFormattedShow)
+    return res.status(200).json({ serializedShow })
+  } catch (error) {
+    if(error instanceof ValidationError) {
+      return res.status(422).json({ errors: error.data })
+    }
+    return res.status(500).json({ error })
+  }
+})
+
+showsRouter.delete("/:id", async (req, res) => {
+  try {
+    const showId = req.params.id
+    const show = await Show.query().findById(showId)
+
+    const reviews = await show.$relatedQuery("reviews")
+    console.log(reviews)
+    for (const review of reviews) {
+      const votes = await review.$relatedQuery("votes")
+      for (const vote of votes) {
+        const deletedVote = await Vote.query().deleteById(vote.id)
+        console.log(deletedVote)
+      }
+      const deletedReview = await Review.query().deleteById(review.id)
+      console.log(deletedReview)
+    }
+    const deletedShow = await Show.query().deleteById(showId)
+    console.log(deletedShow)
+    return res.status(200).json({deletedShow})
+  } catch(error) {
+    console.log(error)
     return res.status(500).json({ error })
   }
 })

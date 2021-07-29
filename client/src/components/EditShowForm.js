@@ -1,35 +1,35 @@
 import React, { useState } from "react"
-import { Redirect } from "react-router-dom"
-import ErrorList from "./ErrorList.js"
-import translateServerErrors from "../services/translateServerErrors.js"
+import ErrorList from "./ErrorList"
+import translateServerErrors from "../services/translateServerErrors"
 
-const NewShowForm = (props) => {
-  const [newShow, setNewShow] = useState({
+const EditShowForm = ({ showId, userId, handleEditShow }) => {
+  const [editShow, setEditShow] = useState({
     name: "",
-    description: ""
+    description: "",
   })
-
-  console.log("this ocming from editshowform")
-  const [shouldRedirect, setShouldRedirect] = useState(false)
 
   const [errors, setErrors] = useState([])
 
   const handleInputChange = (event) => {
-    setNewShow({
-      ...newShow,
+    setEditShow({
+      ...editShow,
       [event.currentTarget.name]: event.currentTarget.value
     })
   }
-
+    
   const handleSubmit = async (event) => {
     event.preventDefault()
+
+    const editedShow = editShow
+    editedShow.userId = userId
+
     try {
-      const response = await fetch("/api/v1/shows", {
-        method: "POST",
+      const response = await fetch(`/api/v1/shows/${showId}`, {
+        method: "PATCH",
         headers: new Headers({
           "Content-Type": "application/json"
         }),
-        body: JSON.stringify(newShow)
+        body: JSON.stringify(editedShow)
       })
       if(!response.ok) {
         if(response.status === 422) {
@@ -42,20 +42,26 @@ const NewShowForm = (props) => {
           throw(error)
         }
       } else {
-        setShouldRedirect(true)
+        setErrors([])
+        clearForm()
+        const editedShow = await response.json()
+        handleEditShow(editedShow.serializedShow)
       }
     } catch(error) {
       console.error(`Error in Fetch: ${error.message}`)
     }
   }
 
-  if(shouldRedirect) {
-    return <Redirect push to="/shows" />
+  const clearForm = () => {
+    setEditShow({
+        name: "",
+        description: "",
+    })
   }
 
   return (
     <div>
-      <h1>Submit a New Show</h1>
+      <h1>Edit Show</h1>
       <ErrorList errors={errors} />
       <form onSubmit={handleSubmit}>
         <label htmlFor="name">Name: </label>
@@ -63,7 +69,7 @@ const NewShowForm = (props) => {
           type="text"
           id="name"
           name="name"
-          value={newShow.name}
+          value={editShow.name}
           onChange={handleInputChange}
         />
 
@@ -72,17 +78,17 @@ const NewShowForm = (props) => {
           type="text"
           id="description"
           name="description"
-          value={newShow.description}
+          value={editShow.description}
           onChange={handleInputChange}
         />
         
         <input 
           type="submit"
-          value="Add Show"
+          value="Edit Show"
         />
       </form>
     </div>
   )
 }
 
-export default NewShowForm
+export default EditShowForm

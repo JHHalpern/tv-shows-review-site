@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react"
-import { useParams } from "react-router-dom"
+import { useParams, Redirect } from "react-router-dom"
 import fetchReviews from "../services/fetchReviews.js"
 import NewReviewForm from "./NewReviewForm.js"
 import ReviewTile from "./ReviewTile.js"
+import EditShowForm from "./EditShowForm.js"
 
 const TVDetailsPage = props => {
   const [show, setShow] = useState({
@@ -12,22 +13,35 @@ const TVDetailsPage = props => {
   const [reviews, setReviews] = useState([])
   const [canEdit, setCanEdit] = useState(false)
   const [showError, setShowError] = useState(false)
+  const [shouldRedirect, setShouldRedirect] = useState(false)
 
   const { id } = useParams()
 
-  const handleDeleteShow = () => {
+  const canEditShow = () => {
+    event.preventDefault()
+    setCanEdit(!canEdit)
+  }
+
+  const handleDeleteShow = async () => {
     event.preventDefault()
     try {
-      const response = await fetch("", {
+      const response = await fetch(`/api/v1/shows/${id}`, {
         method: "DELETE"
       })
     } catch(error) {
       console.error(`Error in Fetch: ${error.message}`)
     }
+    setShouldRedirect(true)
   }
-
-  const handleEditShow = () => {
-
+  
+  const handleEditShow = (editedShow) => {
+    console.log("hellow from tvdetails page")
+    let updatedShow = {}
+    console.log(updatedShow)
+    updatedShow.name = editedShow.name
+    updatedShow.description = editedShow.description
+    console.log(updatedShow)
+    setShow(updatedShow)
   }
 
   const handleDeleteReview = (reviewId) => {
@@ -85,7 +99,7 @@ const TVDetailsPage = props => {
         <input 
           type="submit"
           value="Edit"
-          onClick={handleEditShow}
+          onClick={canEditShow}
         />
 
         <input 
@@ -94,6 +108,17 @@ const TVDetailsPage = props => {
           onClick={handleDeleteShow}
         />
       </div>
+    )
+  }
+  
+  let editForm
+  if(canEdit && props.admin === true) {
+    editForm = (
+      <EditShowForm
+        userId={props.userId}
+        showId={id}
+        handleEditShow={handleEditShow}
+      />
     )
   }
 
@@ -112,12 +137,18 @@ const TVDetailsPage = props => {
       />
     )
   })
+
+  if(shouldRedirect) {
+    return (<Redirect push to="/shows" />)
+  }
  
   return(
     <div className="callout primary">
       <div className="callout">
         <h1>{show.name}</h1>
         <h4>{show.description}</h4>
+        {editDeleteButtons}
+        {editForm}
       <NewReviewForm 
         showId={id} 
         addNewReview={addNewReview}
