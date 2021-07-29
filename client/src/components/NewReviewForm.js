@@ -6,7 +6,6 @@ const NewReviewForm = (props) => {
   const [newReview, setNewReview] = useState({
     body: "",
     score: "",
-    votes: ""
   })
 
   const [errors, setErrors] = useState([])

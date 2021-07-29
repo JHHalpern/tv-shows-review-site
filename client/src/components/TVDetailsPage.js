@@ -12,7 +12,6 @@ const TVDetailsPage = props => {
   })
   const [reviews, setReviews] = useState([])
   const [canEdit, setCanEdit] = useState(false)
-  const [showError, setShowError] = useState(false)
   const [shouldRedirect, setShouldRedirect] = useState(false)
 
   const { id } = useParams()
@@ -89,7 +88,7 @@ const TVDetailsPage = props => {
     setReviews(updatedReviews)
   }
 
-  const addNewVoteToPage = async () => {
+  const updateVotesOnPage = async () => {
     const newReviews = await fetchReviews(id)
     setReviews(newReviews)
   }
@@ -131,11 +130,9 @@ const TVDetailsPage = props => {
         review={review}
         userId={props.userId}
         admin={props.admin}
-        showError={showError}
-        setShowError={setShowError}
-        addNewVoteToPage={addNewVoteToPage}
         handleDelete={handleDeleteReview}
         handleEdit={handleEditReview}
+        updateVotesOnPage={updateVotesOnPage}
       />
     )
   })

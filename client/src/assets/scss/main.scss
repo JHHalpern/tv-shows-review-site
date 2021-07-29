@@ -21,12 +21,20 @@
   border: solid black 1px;
 }
 
-.logged_out_button {
-  display: none;
+.selected_vote_button {
+  background-color: orange;
+  display: inline-block;
+  margin: 5px;
+  padding: 2px;
+  border: solid black 1px;
 }
 
 .vote_text {
   display: inline-block;
   margin-left: 5px;
   margin-right: 5px;
+}
+
+.search_error {
+  text-align: center;
 }

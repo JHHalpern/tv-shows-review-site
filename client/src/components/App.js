@@ -33,6 +33,7 @@ const App = (props) => {
     <Router>
       <TopBar user={currentUser} />
       <Switch>
+        <Route exact path="/" component={ShowsList} />
         <Route exact path="/shows" component={ShowsList} />
         <Route exact path="/shows/new" component={NewShowForm} />
         <Route exact path="/users/new" component={RegistrationForm} />

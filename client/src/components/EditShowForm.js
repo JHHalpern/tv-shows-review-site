@@ -59,7 +59,7 @@ const EditShowForm = ({ showId, userId, handleEditShow }) => {
   }
 
   return (
-    <div>
+    <div className="callout secondary">
       <h1>Edit Show</h1>
       <ErrorList errors={errors} />
       <form onSubmit={handleSubmit}>
@@ -81,7 +81,7 @@ const EditShowForm = ({ showId, userId, handleEditShow }) => {
           onChange={handleInputChange}
         />
         
-        <input 
+        <input className="button"
           type="submit"
           value="Edit Show"
         />

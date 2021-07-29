@@ -90,7 +90,7 @@ const EditReviewForm = ({ showId, userId, reviewId, handleEdit }) => {
   })
 
   return (
-    <div className= "editReviewForm">
+    <div className= "editReviewForm callout secondary">
       <ErrorList errors={errors} />
       <h1>Edit Your Dumb Review:</h1>
         <div className="grid-x">

@@ -1,24 +1,27 @@
 import React, { useState, useEffect } from "react"
-import NewReviewForm from "./NewReviewForm.js"
 import EditReviewForm from "./EditReviewForm.js"
 import ReviewDisplay from "./ReviewDisplay.js"
 import addNewVoteToTable from "../services/addNewVoteToTable.js"
+import deleteVote from "../services/deleteVote.js"
+import editVote from "../services/editVote.js"
 
 const ReviewTile = (props) => {
-  const [alreadyVoted, setAlreadyVoted] = useState(false)
   const [canEdit, setCanEdit] = useState(false)
-  
+
+  const existingVote = props.review.votes.find(vote => vote.userId === props.userId)
+
   const handleClick = async (event) => {
-    const existingVote = props.review.votes.find(vote => vote.userId === props.userId) 
     if(existingVote) {
-      setAlreadyVoted(true)
-      props.setShowError(true)
-  }  
-    if(!existingVote) {
-      setAlreadyVoted(false)
-      props.setShowError(false)
+      if(existingVote.direction === event.currentTarget.value) {
+        deleteVote(existingVote.id)
+        props.updateVotesOnPage()
+      } else {
+        editVote(existingVote)
+        props.updateVotesOnPage()
+      }
+    } else {
       const newVote = await addNewVoteToTable(props.userId, event.currentTarget.value, props.review.id)
-      props.addNewVoteToPage(newVote, props.review.id)
+      props.updateVotesOnPage()
     }
   }
 
@@ -47,36 +50,6 @@ const ReviewTile = (props) => {
   const handleEdit = (event) => {
     event.preventDefault()
     setCanEdit(!canEdit)
-  }
-
-  let voteError
-  if(props.showError && alreadyVoted) {
-    voteError = <p>You've already voted on this review!</p>
-  }
-  
-  let upButton
-  let downButton
-  if(props.userId) {
-    upButton = (
-      <button 
-        type="button" 
-        className="vote_button"
-        value="up"
-        onClick={handleClick}
-      >
-        &#x2191;Vote
-      </button>
-    )
-    downButton = (
-      <button 
-        type="button" 
-        className="vote_button" 
-        value="down"
-        onClick={handleClick}
-      >
-        &#x2193;Vote
-      </button>
-    )
   }
 
   let editDeleteButtons
@@ -115,13 +88,11 @@ const ReviewTile = (props) => {
     <div>
       <ReviewDisplay 
         review={review}
-        voteError={voteError}
-        upButton={upButton}
-        downButton={downButton}
+        userId={props.userId}
+        existingVote={existingVote}
+        handleClick={handleClick}
       />
-      
       {editDeleteButtons}
-
       {editForm}
     </div>
   )
