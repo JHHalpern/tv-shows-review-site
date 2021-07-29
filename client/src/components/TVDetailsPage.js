@@ -28,6 +28,11 @@ const TVDetailsPage = props => {
       const response = await fetch(`/api/v1/shows/${id}`, {
         method: "DELETE"
       })
+      if(!response.ok) {
+        const errorMessage = `${response.status} (${response.statusText})`
+        const error = new Error(errorMessage)
+        throw(error)
+      }
     } catch(error) {
       console.error(`Error in Fetch: ${error.message}`)
     }
@@ -35,12 +40,9 @@ const TVDetailsPage = props => {
   }
   
   const handleEditShow = (editedShow) => {
-    console.log("hellow from tvdetails page")
     let updatedShow = {}
-    console.log(updatedShow)
     updatedShow.name = editedShow.name
     updatedShow.description = editedShow.description
-    console.log(updatedShow)
     setShow(updatedShow)
   }
 

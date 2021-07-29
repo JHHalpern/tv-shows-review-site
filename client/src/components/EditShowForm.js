@@ -19,7 +19,6 @@ const EditShowForm = ({ showId, userId, handleEditShow }) => {
     
   const handleSubmit = async (event) => {
     event.preventDefault()
-
     const editedShow = editShow
     editedShow.userId = userId
 

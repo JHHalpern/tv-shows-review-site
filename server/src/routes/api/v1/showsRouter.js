@@ -28,7 +28,6 @@ showsRouter.get("/", async (req, res) => {
 showsRouter.post("/", async (req, res) => {
   const body = req.body
   const formInput = cleanUserInput(body)
-
   try {
     const newShow = await Show.query().insertAndFetch(formInput)
     return res.status(201).json({ show: newShow })
@@ -63,23 +62,17 @@ showsRouter.delete("/:id", async (req, res) => {
   try {
     const showId = req.params.id
     const show = await Show.query().findById(showId)
-
     const reviews = await show.$relatedQuery("reviews")
-    console.log(reviews)
     for (const review of reviews) {
       const votes = await review.$relatedQuery("votes")
       for (const vote of votes) {
         const deletedVote = await Vote.query().deleteById(vote.id)
-        console.log(deletedVote)
       }
       const deletedReview = await Review.query().deleteById(review.id)
-      console.log(deletedReview)
     }
     const deletedShow = await Show.query().deleteById(showId)
-    console.log(deletedShow)
     return res.status(200).json({deletedShow})
   } catch(error) {
-    console.log(error)
     return res.status(500).json({ error })
   }
 })

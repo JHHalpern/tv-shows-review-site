@@ -5,7 +5,7 @@ import ReviewSerializer from "../../../serializers/ReviewSerializer.js"
 import { Review, Show } from "../../../models/index.js"
 import cleanUserInput from "../../../services/cleanUserInput.js"
 
-const showsReviewsRouter = new express.Router({ mergeParams: true})
+const showsReviewsRouter = new express.Router({ mergeParams: true })
 
 showsReviewsRouter.get("/", async (req, res) => {
   const showId = req.params.id
