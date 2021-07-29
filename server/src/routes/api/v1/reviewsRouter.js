@@ -1,3 +1,4 @@
+
 import express from "express"
 import objection from "objection"
 const { ValidationError } = objection
@@ -17,7 +18,7 @@ reviewsRouter.delete("/:id", async (req, res) => {
         await Vote.query().deleteById(vote.id)
       }
       const deleted = await Review.query().deleteById(reviewId)
-      return res.status(200).json()
+      return res.status(200).json({ message: `successfully deleted ${deleted} review`})
     } catch(error) {
       return res.status(500).json({ error })
     }

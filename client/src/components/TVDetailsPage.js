@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react"
-import { useParams } from "react-router-dom"
+import { useParams, Redirect } from "react-router-dom"
 import fetchReviews from "../services/fetchReviews.js"
 import NewReviewForm from "./NewReviewForm.js"
 import ReviewTile from "./ReviewTile.js"
+import EditShowForm from "./EditShowForm.js"
 
 const TVDetailsPage = props => {
   const [show, setShow] = useState({
@@ -10,10 +11,39 @@ const TVDetailsPage = props => {
     description: "",
   })
   const [reviews, setReviews] = useState([])
+  const [canEdit, setCanEdit] = useState(false)
+  const [shouldRedirect, setShouldRedirect] = useState(false)
 
   const { id } = useParams()
 
-  const handleDelete = (reviewId) => {
+  const toggleEditAbility = () => {
+    event.preventDefault()
+    setCanEdit(!canEdit)
+  }
+
+  const handleDeleteShow = async () => {
+    event.preventDefault()
+    try {
+      const response = await fetch(`/api/v1/shows/${id}`, {
+        method: "DELETE"
+      })
+      if(!response.ok) {
+        const errorMessage = `${response.status} (${response.statusText})`
+        const error = new Error(errorMessage)
+        throw(error)
+      }
+    } catch(error) {
+      console.error(`Error in Fetch: ${error.message}`)
+    }
+    setShouldRedirect(true)
+  }
+  
+  const handleEditShow = ({ name, description }) => {
+    const updatedShow = { name, description } 
+    setShow(updatedShow)
+  }
+
+  const handleDeleteReview = (reviewId) => {
     const currentReviews = [...reviews]
     const targetIndex = reviews.findIndex((review)=> {
       return review.id === reviewId
@@ -22,7 +52,7 @@ const TVDetailsPage = props => {
     setReviews(currentReviews)
   }
 
-  const handleEdit = (reviewId, editedReview) => {
+  const handleEditReview = (reviewId, editedReview) => {
     const currentReviews = [...reviews]
     const targetIndex = reviews.findIndex((review)=> {
       return review.id === reviewId
@@ -61,24 +91,61 @@ const TVDetailsPage = props => {
     setReviews(newReviews)
   }
 
+  let editDeleteButtons
+  if(props.admin === true) {
+    editDeleteButtons = (
+      <div>
+        <input 
+          type="submit"
+          value="Edit"
+          onClick={toggleEditAbility}
+        />
+
+        <input 
+          type="submit"
+          value="Delete"
+          onClick={handleDeleteShow}
+        />
+      </div>
+    )
+  }
+  
+  let editForm
+  if(canEdit && props.admin === true) {
+    editForm = (
+      <EditShowForm
+        userId={props.userId}
+        showId={id}
+        handleEditShow={handleEditShow}
+      />
+    )
+  }
+
   const reviewListItems = reviews.map(review => {
     return (
       <ReviewTile
         key={review.id}
         review={review}
         userId={props.userId}
+        admin={props.admin}
+        handleDelete={handleDeleteReview}
+        handleEdit={handleEditReview}
         updateVotesOnPage={updateVotesOnPage}
-        handleDelete={handleDelete}
-        handleEdit={handleEdit}
       />
     )
   })
+
+  if(shouldRedirect) {
+    return (<Redirect push to="/shows" />)
+  }
  
   return(
     <div className="callout primary">
       <div className="callout">
         <h1>{show.name}</h1>
         <h4>{show.description}</h4>
+        {editDeleteButtons}
+        {editForm}
       <NewReviewForm 
         showId={id} 
         addNewReview={addNewReview}
