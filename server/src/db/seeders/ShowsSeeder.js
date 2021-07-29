@@ -14,6 +14,14 @@ class ShowsSeeder {
       {
         name: "Game of Thrones",
         description: "Everyone has sex or gets killed by a dragon"
+      },
+      {
+        name: "Kevin Can F&#k Himself",
+        description: "sounds kinda messed up"
+      },
+      {
+        name: "aAaAab?",
+        description: "cthulu show"
       }
     ]
 
