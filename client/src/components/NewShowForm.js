@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { Redirect } from "react-router-dom"
-import ErrorList from "./ErrorList"
-import translateServerErrors from "../services/translateServerErrors"
+import ErrorList from "./ErrorList.js"
+import translateServerErrors from "../services/translateServerErrors.js"
 
 const NewShowForm = (props) => {
   const [newShow, setNewShow] = useState({
@@ -53,10 +53,10 @@ const NewShowForm = (props) => {
   }
 
   return (
-    <div>
+    <div className="callout primary">
       <h1>Submit a New Show</h1>
       <ErrorList errors={errors} />
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="callout">
         <label htmlFor="name">Name: </label>
         <input
           type="text"
