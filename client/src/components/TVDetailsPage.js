@@ -16,7 +16,7 @@ const TVDetailsPage = props => {
 
   const { id } = useParams()
 
-  const canEditShow = () => {
+  const toggleEditAbility = () => {
     event.preventDefault()
     setCanEdit(!canEdit)
   }
@@ -38,10 +38,8 @@ const TVDetailsPage = props => {
     setShouldRedirect(true)
   }
   
-  const handleEditShow = (editedShow) => {
-    let updatedShow = {}
-    updatedShow.name = editedShow.name
-    updatedShow.description = editedShow.description
+  const handleEditShow = ({ name, description }) => {
+    const updatedShow = { name, description } 
     setShow(updatedShow)
   }
 
@@ -100,7 +98,7 @@ const TVDetailsPage = props => {
         <input 
           type="submit"
           value="Edit"
-          onClick={canEditShow}
+          onClick={toggleEditAbility}
         />
 
         <input 

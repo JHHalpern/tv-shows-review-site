@@ -30,6 +30,7 @@ const EditShowForm = ({ showId, userId, handleEditShow }) => {
         }),
         body: JSON.stringify(editedShow)
       })
+      const returnedEditedShow = await response.json()
       if(!response.ok) {
         if(response.status === 422) {
           const body = await response.json()
@@ -43,8 +44,7 @@ const EditShowForm = ({ showId, userId, handleEditShow }) => {
       } else {
         setErrors([])
         clearForm()
-        const editedShow = await response.json()
-        handleEditShow(editedShow.serializedShow)
+        handleEditShow(returnedEditedShow.serializedShow)
       }
     } catch(error) {
       console.error(`Error in Fetch: ${error.message}`)

@@ -44,7 +44,6 @@ const SignInForm = () => {
         }),
         credentials: "include" 
       }).then((resp) => {
-        console.log(`response.ok: ${resp.ok}`)
         if (resp.ok) {
           resp.json().then(() => {
             setShouldRedirect(true);

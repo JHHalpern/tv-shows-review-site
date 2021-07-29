@@ -9,7 +9,6 @@ const NewShowForm = (props) => {
     description: ""
   })
 
-  console.log("this ocming from editshowform")
   const [shouldRedirect, setShouldRedirect] = useState(false)
 
   const [errors, setErrors] = useState([])

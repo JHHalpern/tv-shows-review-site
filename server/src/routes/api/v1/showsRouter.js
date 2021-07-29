@@ -63,13 +63,10 @@ showsRouter.delete("/:id", async (req, res) => {
     const showId = req.params.id
     const show = await Show.query().findById(showId)
     const reviews = await show.$relatedQuery("reviews")
-    for (const review of reviews) {
-      const votes = await review.$relatedQuery("votes")
-      for (const vote of votes) {
-        const deletedVote = await Vote.query().deleteById(vote.id)
-      }
-      const deletedReview = await Review.query().deleteById(review.id)
+    for (const review of review) {
+      await review.$relatedQuery("votes").delete()
     }
+    await show.$relatedQuery("reviews").delete()
     const deletedShow = await Show.query().deleteById(showId)
     return res.status(200).json({deletedShow})
   } catch(error) {
