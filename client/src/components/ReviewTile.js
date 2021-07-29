@@ -53,7 +53,7 @@ const ReviewTile = (props) => {
   }
 
   let editDeleteButtons
-  if(props.userId === review.userId) {
+  if(props.userId === review.userId || props.admin === true) {
     editDeleteButtons = (
       <div>
         <input 
@@ -72,7 +72,7 @@ const ReviewTile = (props) => {
   }
 
   let editForm
-  if(canEdit && props.userId === review.userId) {
+  if(canEdit && (props.userId === review.userId || props.admin === true)) {
     editForm = (
       <EditReviewForm
         userId={props.userId}

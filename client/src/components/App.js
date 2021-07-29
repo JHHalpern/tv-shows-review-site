@@ -23,8 +23,10 @@ const App = (props) => {
   }, []);
 
   let userId
+  let admin
   if (currentUser) {
     userId = currentUser.id
+    admin = currentUser.admin
   }
   
   return (
@@ -37,7 +39,7 @@ const App = (props) => {
         <Route exact path="/users/new" component={RegistrationForm} />
         <Route exact path="/user-sessions/new" component={SignInForm} />
         <Route exact path="/shows/:id">
-          <TVDetailsPage userId={userId}/>
+          <TVDetailsPage userId={userId} admin={admin}/>
         </Route>
       </Switch>
     </Router>

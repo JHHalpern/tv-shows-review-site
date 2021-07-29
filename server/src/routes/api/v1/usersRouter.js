@@ -6,8 +6,9 @@ const usersRouter = new express.Router();
 
 usersRouter.post("/", async (req, res) => {
   const { email, password, passwordConfirmation } = req.body;
+  const admin = false
   try {
-    const persistedUser = await User.query().insertAndFetch({ email, password });
+    const persistedUser = await User.query().insertAndFetch({ email, password, admin });
     return req.login(persistedUser, () => {
       return res.status(201).json({ user: persistedUser });
     });
