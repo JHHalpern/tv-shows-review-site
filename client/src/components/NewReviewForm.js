@@ -1,6 +1,6 @@
 import React, { useState } from "react"
-import ErrorList from "./ErrorList"
-import translateServerErrors from "../services/translateServerErrors"
+import ErrorList from "./ErrorList.js"
+import translateServerErrors from "../services/translateServerErrors.js"
 
 const NewReviewForm = (props) => {
   const [newReview, setNewReview] = useState({
