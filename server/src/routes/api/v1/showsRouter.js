@@ -2,8 +2,6 @@ import express from "express"
 import objection from "objection"
 const { ValidationError } = objection
 import { Show } from "../../../models/index.js"
-import { Review } from "../../../models/index.js"
-import showsReviewRouter from "./showsReviewsRouter.js"
 import ShowSerializer from "../../../serializers/ShowSerializer.js"
 import showsReviewsRouter from "./showsReviewsRouter.js"
 import cleanUserInput from "../../../services/cleanUserInput.js"
@@ -50,17 +48,6 @@ showsRouter.get("/:id", async(req,res) => {
     return res.status(200).json({ show: serializedShow })
   } catch(err) {
     return res.status(500).json({ errors: err })
-  }
-})
-
-showsRouter.get("/:id", async(req,res) => {
-  const showId = req.params.id
-  try {
-    const show = await Show.query().findById(showId)
-    const serializedShow = ShowSerializer.getSummary(show)
-    return res.status(200).json( { show: serializedShow } )
-  } catch(err){
-    return res.status(500).json({errors: err})
   }
 })
 

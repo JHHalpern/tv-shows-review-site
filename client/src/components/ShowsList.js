@@ -6,17 +6,6 @@ const ShowsList = (props) => {
   const [shows, setShows] = useState([])
   const [searchData, setSearchData] = useState("")
 
-  let searchedShows = []
-  if(shows.length > 0) {
-    shows.forEach(show => {
-      if(show.name.toLowerCase().includes(searchData.toLowerCase()) && !searchedShows.includes(show)) {
-        searchedShows.push(show)
-      } else if (!show.name.toLowerCase().includes(searchData.toLowerCase()) && searchedShows.includes(show)) {
-        searchedShows = searchedShows.filter(searchedShow => searchedShow !== show)
-      }
-    })
-  }
-
   const fetchShows = async () => {
     try {
       const response = await fetch("/api/v1/shows")
@@ -36,6 +25,11 @@ const ShowsList = (props) => {
   useEffect(() => {
     fetchShows()
   }, [])
+  
+  let searchedShows = []
+  if(shows.length > 0) {
+    searchedShows = shows.filter(show => show.name.toLowerCase().includes(searchData.toLowerCase()))
+  }
 
   let showList = searchedShows.map( show => {
     return (
