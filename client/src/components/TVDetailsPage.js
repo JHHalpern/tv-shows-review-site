@@ -135,6 +135,17 @@ const TVDetailsPage = props => {
     )
   })
 
+  let reviewForm
+  if(props.userId) {
+    reviewForm = (
+      <NewReviewForm 
+        showId={id} 
+        addNewReview={addNewReview}
+        userId={props.userId}
+      />
+    )
+  }
+
   if(shouldRedirect) {
     return (<Redirect push to="/shows" />)
   }
@@ -146,11 +157,7 @@ const TVDetailsPage = props => {
         <h4>{show.description}</h4>
         {editDeleteButtons}
         {editForm}
-      <NewReviewForm 
-        showId={id} 
-        addNewReview={addNewReview}
-        userId={props.userId}
-      />
+        {reviewForm}
       </div>
       <h4>Reviews: </h4>
       {reviewListItems}
