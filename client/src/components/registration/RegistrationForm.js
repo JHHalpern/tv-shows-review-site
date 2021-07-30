@@ -18,7 +18,9 @@ const RegistrationForm = () => {
     const { email, password, passwordConfirmation } = payload;
     const emailRegexp = config.validation.email.regexp;
     let newErrors = {};
+    let foundError = false
     if (!email.match(emailRegexp)) {
+      foundError = true
       newErrors = {
         ...newErrors,
         email: "is invalid",
@@ -26,6 +28,7 @@ const RegistrationForm = () => {
     }
 
     if (password.trim() == "") {
+      foundError = true
       newErrors = {
         ...newErrors,
         password: "is required",
@@ -33,12 +36,14 @@ const RegistrationForm = () => {
     }
 
     if (passwordConfirmation.trim() === "") {
+      foundError = true
       newErrors = {
         ...newErrors,
         passwordConfirmation: "is required",
       };
     } else {
       if (passwordConfirmation !== password) {
+        foundError = true
         newErrors = {
           ...newErrors,
           passwordConfirmation: "does not match password",
@@ -47,12 +52,13 @@ const RegistrationForm = () => {
     }
 
     setErrors(newErrors);
+    return foundError
   };
 
   const onSubmit = (event) => {
     event.preventDefault();
-    validateInput(userPayload);
-    if (Object.keys(errors).length === 0) {
+    const foundError = validateInput(userPayload);
+    if (!foundError) {
       fetch("/api/v1/users", {
         method: "post",
         body: JSON.stringify(userPayload),
