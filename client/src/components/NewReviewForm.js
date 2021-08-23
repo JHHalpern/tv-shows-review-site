@@ -93,7 +93,7 @@ const NewReviewForm = (props) => {
   return (
     <div className= "newReviewForm callout secondary">
       <ErrorList errors={errors} />
-      <h1>Make Your Dumb Review:</h1>
+      <h3>Leave a Review:</h3>
         <div className="grid-x">
           {reviewRating}
         </div>
@@ -110,10 +110,10 @@ const NewReviewForm = (props) => {
           </label>
 
           <div className="button-group">
-            <input 
+            <input
               className="button"
-              type="submit" 
-              value="submit" 
+              type="submit"
+              value="submit"
             />
           </div>
         </form>

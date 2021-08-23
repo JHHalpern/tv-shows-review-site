@@ -8,21 +8,21 @@ class ShowsSeeder {
         description: "Two brothers hunting demons, angels, and everything in between"
       },
       {
+        name: "Jeopardy",
+        description: "Answer an answer with a question for prize money"
+      },
+      {
         name: "Friends",
         description: "Six friends will be there for you"
       },
       {
         name: "Game of Thrones",
-        description: "Everyone has sex or gets killed by a dragon"
+        description: "Everyone has s*x or gets killed by a dragon"
       },
       {
-        name: "Kevin Can F&#k Himself",
-        description: "sounds kinda messed up"
+        name: "Hells Kitchen",
+        description: "Gordon Ramsy hosts the ultimate cooking competition"
       },
-      {
-        name: "aAaAab?",
-        description: "cthulu show"
-      }
     ]
 
     for (const singleShowData of showsData) {
