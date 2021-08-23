@@ -48,8 +48,9 @@ The React front end will need initial data to render properly. To set up the dat
 please run the following from /server directory:
 
 `yarn run migrate:latest`
+
 `yarn run db:seed`
 
 ## Support and Questions
 
-For questions and suggestions, please reach out to any (or all) member of the team.
+For questions and suggestions, please reach out to any or all members of the team.
