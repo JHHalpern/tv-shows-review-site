@@ -28,6 +28,10 @@ You can find a running instance of our website at:
 
 https://boston33-tv-shows-review-site.herokuapp.com
 
+To fully checkout all website capabilities, please log in as an admin via this public administrator account:
+- email: admin@test.com
+- password: testing123
+
 ## Instructions
 
 Download, copy or clone the repository to the directory of your choice and run the following in your project's
