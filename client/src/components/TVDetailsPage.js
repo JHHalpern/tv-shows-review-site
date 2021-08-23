@@ -37,9 +37,9 @@ const TVDetailsPage = props => {
     }
     setShouldRedirect(true)
   }
-  
+
   const handleEditShow = ({ name, description }) => {
-    const updatedShow = { name, description } 
+    const updatedShow = { name, description }
     setShow(updatedShow)
   }
 
@@ -60,7 +60,7 @@ const TVDetailsPage = props => {
     currentReviews.splice(targetIndex, 1, editedReview)
     setReviews(currentReviews)
   }
-  
+
   const getShow = async () => {
     try {
       const response = await fetch(`/api/v1/shows/${id}`)
@@ -76,8 +76,8 @@ const TVDetailsPage = props => {
       console.error(`Error in fetch: ${err.message}`)
     }
   }
-  
-  useEffect(() => { 
+
+  useEffect(() => {
     getShow()
   }, [])
 
@@ -95,13 +95,15 @@ const TVDetailsPage = props => {
   if(props.admin === true) {
     editDeleteButtons = (
       <div>
-        <input 
+        <input
+          className="adminButtons"
           type="submit"
           value="Edit"
           onClick={toggleEditAbility}
         />
 
-        <input 
+        <input
+          className="adminButtons"
           type="submit"
           value="Delete"
           onClick={handleDeleteShow}
@@ -109,7 +111,7 @@ const TVDetailsPage = props => {
       </div>
     )
   }
-  
+
   let editForm
   if(canEdit && props.admin === true) {
     editForm = (
@@ -138,8 +140,8 @@ const TVDetailsPage = props => {
   let reviewForm
   if(props.userId) {
     reviewForm = (
-      <NewReviewForm 
-        showId={id} 
+      <NewReviewForm
+        showId={id}
         addNewReview={addNewReview}
         userId={props.userId}
       />
@@ -149,7 +151,7 @@ const TVDetailsPage = props => {
   if(shouldRedirect) {
     return (<Redirect push to="/shows" />)
   }
- 
+
   return(
     <div className="callout primary">
       <div className="callout">

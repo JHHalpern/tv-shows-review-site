@@ -6,11 +6,6 @@ class UsersSeeder {
   static async seed() {
     const userData = [
       {
-        email: "thisshowsux@gmail.com",
-        password: "thisshowsux",
-        admin: true
-      },
-      {
         email: "ilikemovies@gmail.com",
         password: "password",
         admin: false
@@ -21,10 +16,15 @@ class UsersSeeder {
         admin: false
       },
       {
-        email: "nicksSECRETemail@gmail.com",
-        password: "nickisthebest",
+        email: "imabot@yoohoo.com",
+        password: "milk",
         admin: false
       },
+      {
+          email: "admin@test.com",
+          password: "testing123",
+          admin: true
+      }
     ]
 
     for(const singleUser of userData) {

@@ -28,7 +28,7 @@ const ReviewTile = (props) => {
   const review = props.review
   const reviewId = review.id
   const showId = review.showId
- 
+
   const handleDelete = async (event) => {
     event.preventDefault()
     try {
@@ -56,13 +56,15 @@ const ReviewTile = (props) => {
   if(props.userId === review.userId || props.admin === true) {
     editDeleteButtons = (
       <div>
-        <input 
+        <input
+          className="adminButtons"
           type="submit"
           value="Edit"
           onClick={handleEdit}
         />
 
-        <input 
+        <input
+          className="adminButtons"
           type="submit"
           value="Delete"
           onClick={handleDelete}
@@ -86,7 +88,7 @@ const ReviewTile = (props) => {
 
   return (
     <div>
-      <ReviewDisplay 
+      <ReviewDisplay
         review={review}
         userId={props.userId}
         existingVote={existingVote}

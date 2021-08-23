@@ -59,17 +59,17 @@ const ShowsList = (props) => {
   useEffect(() => {
     handleSearch(searchData)
   }, [searchData])
- 
+
 
   return (
     <div className="callout primary">
       <h1>TV Shows</h1>
       <div>
         <label htmlFor="search">Search: </label>
-        <input 
-          type="text" 
-          id="search" 
-          name="search" 
+        <input
+          type="text"
+          id="search"
+          name="search"
           value={searchData}
           onChange={handleChange}
         ></input>
